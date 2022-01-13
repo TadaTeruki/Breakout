@@ -51,7 +51,7 @@ function moveBall(){
 
             // 条件2 : ブロックに当たっていないか?
             for(var i = 0; i<game.blocks.length; i++){
-                if(game.blocks[i].available == false) continue;
+                if(game.blocks[i].available == false) continue
                 if((ballXHS > game.blocks[i].xHS) && (ballXHS < game.blocks[i].xHS + game.blocks[i].widthHS) &&
                     (ballYVS > game.blocks[i].yVS) && (ballYVS < game.blocks[i].yVS + game.blocks[i].heightVS) ){
                     

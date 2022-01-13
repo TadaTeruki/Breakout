@@ -4,34 +4,37 @@ function set_screen(){
     screen.height_aspect = 5
     screen.resize_scale = 1.0
     screen.canvas_margin_scale = 0.1
-    screen.canvas = document.getElementById("canvas_src");
-    screen.ctx = screen.canvas.getContext("2d");
-    
+    screen.canvas = document.getElementById("canvas_src")
+    screen.ctx = screen.canvas.getContext("2d")
 }
 
 function set_ball(){
-    game.ballXHS = game.paddleXHS + game.paddleWidthHS*0.5;
-    game.ballYVS = game.paddleYVS;
-    game.ballAngle = Math.PI*0.2;
-    game.ballVelocityHS = 0.008;
-    game.ballReleased = false;
+    game.ballXHS = game.paddleXHS + game.paddleWidthHS*0.5
+    game.ballYVS = game.paddleYVS
+    game.ballAngle = Math.PI*0.2
+    game.ballVelocityHS = 0.008
+    game.ballReleased = false
 }
 
 function set_game(){
 
-    game.ballRadiusHS = 0.02;
-    game.paddleWidthHS = 0.15;
-    game.paddleHeightVS = 0.02;
-    game.paddleXHS = 0.5 - game.paddleWidthHS*0.5;
-    game.paddleYVS = 0.9;
-    game.paddleSpeedHS = 0.01;
+    game.ballRadiusHS = 0.02
+    game.collisionFillStyle = "rgba(200,200,200,20)"
+
+    game.paddleWidthHS = 0.15
+    game.paddleHeightVS = 0.02
+    game.paddleXHS = 0.5 - game.paddleWidthHS*0.5
+    game.paddleYVS = 0.9
+    game.paddleSpeedHS = 0.01
 
     game.blocks = []
-    game.blocksHeightVS = 0.35;
-    game.blocksMarginHS = 0.005;
+    game.blocksHeightVS = 0.35
+    game.blocksMarginHS = 0.005
 
-    game.rightPressed = false;
-    game.leftPressed = false;
+    game.rightPressed = false
+    game.leftPressed = false
+    game.time = 0
+    game.max_time = 2*2*2*2*3*3*5*7*11*13
     
     set_ball()
     set_blocks()
