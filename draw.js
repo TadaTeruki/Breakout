@@ -1,24 +1,6 @@
-// ボールの描画
-function drawBall() {
-    screen.ctx.beginPath()
-    screen.ctx.arc(screen.canvas.width*game.ballXHS, screen.canvas.height*game.ballYVS, screen.canvas.width*game.ballRadiusHS, 0, Math.PI*2)
-    screen.ctx.fillStyle = game.collisionFillStyle
-    screen.ctx.fill()
-    screen.ctx.closePath()
-}
 
-// パドルの描画
-function drawPaddle() {
-    screen.ctx.beginPath()
-    screen.ctx.rect(
-        screen.canvas.width*game.paddleXHS,
-        screen.canvas.height*game.paddleYVS,
-        screen.canvas.width*game.paddleWidthHS,
-        screen.canvas.height*game.paddleHeightVS
-    )
-    screen.ctx.fillStyle = game.collisionFillStyle
-    screen.ctx.fill()
-    screen.ctx.closePath()
+function getAnimID(interval_sec, image_num){
+    return Math.floor(game.time/(interval_sec/screen.updateIntervalSec))%image_num
 }
 
 function drawImageOnRect(image_src, rect_x, rect_y, rect_width, rect_height) {
@@ -44,6 +26,45 @@ function drawImageOnRect(image_src, rect_x, rect_y, rect_width, rect_height) {
 
 }
 
+// ボールの描画
+function drawBall() {
+    screen.ctx.beginPath()
+
+    var ball_x = screen.canvas.width*game.ballXHS
+    var ball_y = screen.canvas.height*game.ballYVS
+    var ball_r = screen.canvas.width*game.ballRadiusHS
+    screen.ctx.arc(ball_x, ball_y, ball_r, 0, Math.PI*2)
+    screen.ctx.fillStyle = game.collisionFillStyle
+    screen.ctx.fill()
+    screen.ctx.closePath()
+
+    var anim_id = getAnimID(game.ballAnimationIntervalSec, game.ballImageSrc.length)
+    drawImageOnRect(game.ballImageSrc[anim_id],
+        ball_x-ball_r,
+        ball_y-ball_r,
+        ball_r*2,
+        ball_r*2)
+}
+
+// パドルの描画
+function drawPaddle() {
+    screen.ctx.beginPath()
+
+    var rect_x = game.paddleXHS * screen.canvas.width
+    var rect_y = game.paddleYVS * screen.canvas.height
+    var rect_width = game.paddleWidthHS * screen.canvas.width
+    var rect_height = game.paddleHeightVS * screen.canvas.height
+
+    screen.ctx.rect(rect_x, rect_y, rect_width, rect_height)
+    screen.ctx.fillStyle = game.collisionFillStyle
+    screen.ctx.fill()
+    screen.ctx.closePath()
+
+    var anim_id = getAnimID(game.paddleAnimationIntervalSec, game.paddleImageSrc.length)
+    drawImageOnRect(game.paddleImageSrc[anim_id], rect_x, rect_y, rect_width, rect_height)
+
+}
+
 // ブロックの描画
 function drawBlocks() {
     
@@ -64,9 +85,9 @@ function drawBlocks() {
         screen.ctx.fillStyle = game.collisionFillStyle
         screen.ctx.fill()
         screen.ctx.closePath()
-        drawImageOnRect(game.blocks[i].animation_image_src[
-            Math.floor(game.time/game.blocks[i].animation_interval)%game.blocks[i].animation_image_src.length
-        ], rect_x, rect_y, rect_width, rect_height)
+
+        var anim_id = getAnimID(game.blocks[i].animationIntervalSec, game.blocks[i].animationImageSrc.length)
+        drawImageOnRect(game.blocks[i].animationImageSrc[anim_id], rect_x, rect_y, rect_width, rect_height)
 
     }
     
@@ -89,6 +110,9 @@ function draw() {
     }
 
     screen.ctx.clearRect(0, 0, screen.canvas.width, screen.canvas.height)
+
+    drawImageOnRect("resources/test_background.png", 0, 0, screen.canvas.width, screen.canvas.height)
+
     drawBall()
     drawPaddle()
     drawBlocks()

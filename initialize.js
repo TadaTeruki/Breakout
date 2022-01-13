@@ -18,14 +18,19 @@ function set_ball(){
 
 function set_game(){
 
-    game.ballRadiusHS = 0.02
     game.collisionFillStyle = "rgba(200,200,200,20)"
+
+    game.ballRadiusHS = 0.02
+    game.ballImageSrc = ["resources/test_uniA.png", "resources/test_uniB.png"]
+    game.ballAnimationIntervalSec = 0.3
 
     game.paddleWidthHS = 0.15
     game.paddleHeightVS = 0.02
     game.paddleXHS = 0.5 - game.paddleWidthHS*0.5
     game.paddleYVS = 0.9
     game.paddleSpeedHS = 0.01
+    game.paddleImageSrc = ["resources/test_fish0.png"]
+    game.paddleAnimationIntervalSec = 0.01
 
     game.blocks = []
     game.blocksHeightVS = 0.35
@@ -52,7 +57,8 @@ function set_canvas(){
         screen.canvas.width = 0.0
         screen.canvas.height = 0.0
     }
-    //screen.canvas.style.top  = ((window.innerHeight-screen.canvas.height)*0.5).toString() +"px"
+    screen.canvas.style.position = "fixed"
+    screen.canvas.style.top  = ((window.innerHeight-screen.canvas.height)*0.5).toString() +"px"
     screen.canvas.style.left = ((window.innerWidth-screen.canvas.width)*0.5).toString() + "px"
     
 }

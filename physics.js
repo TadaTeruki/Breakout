@@ -13,6 +13,14 @@ function breakBlock(i){
 
 }
 
+function moveBlocks(){
+    for(var i = 0; i<game.blocks.length; i++){
+        if(game.blocks[i].available == false) continue
+        game.blocks[i].xHS += game.blocks[i].dxFuncHS()
+        game.blocks[i].yVS += game.blocks[i].dyFuncVS()
+    }
+}
+
 // ブロックを動かす
 function moveBall(){
 
@@ -56,8 +64,8 @@ function moveBall(){
                     (ballYVS > game.blocks[i].yVS) && (ballYVS < game.blocks[i].yVS + game.blocks[i].heightVS) ){
                     
                     // ブロックに当たっている
-                    // ただし、ボールが跳ね返るには、ball_piercingがtrueである必要あり
-                    if (game.blocks[i].ball_piercing == false){
+                    // ただし、ボールが跳ね返るには、ballPiercingがtrueである必要あり
+                    if (game.blocks[i].ballPiercing == false){
                         accepted = false
                     }
                     brokenBlocksList.push(i)
