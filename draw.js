@@ -136,58 +136,65 @@ function drawLabel(type) {
         var rect_width = label.widthHS * cv.width - margin*2
         var rect_height = label.heightVS * cv.height - margin*2
 
-        ctx.rect(
+
+        ctx.fillStyle = label.backFillStyle
+        ctx.shadowColor = label.shadowFillStyle
+        ctx.shadowOffsetX = 0
+        ctx.shadowOffsetY = 0
+        ctx.shadowBlur = label.shadowBlurHS * cv.width
+
+        ctx.fillRect(
             rect_x,
             rect_y,
             rect_width,
             rect_height
         )
-
-        ctx.fillStyle = label.backFillStyle
-        ctx.fill()
         ctx.closePath()
+
+        if(label.text.length != 0){
+            var text_x = rect_x
+            if(label.textAlign == "left") text_x = rect_x
+            if(label.textAlign == "center") text_x = rect_x + rect_width/2
+            if(label.textAlign == "right") text_x = rect_x + rect_width
+    
+            var text_overall_height = 0
+            for(var i = 0 ; i< label.textSizeHS.length;i++){
+                if(i != 0) text_overall_height += label.textLineHeightVS[i-1]*cv.height
+                text_overall_height += label.textSizeHS[i]*cv.width
+            }
+    
+            var text_base_y = rect_y + rect_height/2 - text_overall_height/2
+            if(label.textBaseLine == "top") text_base_y = rect_y
+            if(label.textBaseLine == "bottom") text_base_y = rect_y + rect_height - text_overall_height
+    
+    
+            var text_y_inc_scale = label.textBaseLine == "middle" ? 0.5:1
+            var text_y = text_base_y
+    
+            for(var i = 0 ; i< label.textSizeHS.length;i++){
+    
+                textSizePX = Math.floor(label.textSizeHS[i] * cv.width)
+    
+                if(label.textBaseLine == "bottom" || label.textBaseLine == "middle"){
+                    text_y += textSizePX*text_y_inc_scale
+                    if(i != 0) text_y += label.textLineHeightVS[i-1]*cv.height*text_y_inc_scale
+                }
+    
+                ctx.font = label.textWeight[i] + " " + textSizePX.toString() + "px '" + label.textFont + "'"
+    
+                ctx.textAlign = label.textAlign
+                ctx.textBaseline = label.textBaseLine
+                ctx.fillStyle = label.textFillStyle
+                ctx.fillText(label.text[i], text_x, text_y)
+    
+                if(label.textBaseLine == "top" || label.textBaseLine == "middle"){
+                    text_y += textSizePX*text_y_inc_scale
+                    if(i != label.textSizeHS.length-1) text_y += label.textLineHeightVS[i]*cv.height*text_y_inc_scale
+                }
+                
+            }
+        }
         
-        var text_x = rect_x
-        if(label.textAlign == "left") text_x = rect_x
-        if(label.textAlign == "center") text_x = rect_x + rect_width/2
-        if(label.textAlign == "right") text_x = rect_x + rect_width
-
-        var text_overall_height = 0
-        for(var i = 0 ; i< label.textSizeHS.length;i++){
-            if(i != 0) text_overall_height += label.textLineHeightVS[i-1]*cv.height
-            text_overall_height += label.textSizeHS[i]*cv.width
-        }
-
-        var text_base_y = rect_y + rect_height/2 - text_overall_height/2
-        if(label.textBaseLine == "top") text_base_y = rect_y
-        if(label.textBaseLine == "bottom") text_base_y = rect_y + rect_height - text_overall_height
-
-
-        var text_y_inc_scale = label.textBaseLine == "middle" ? 0.5:1
-        var text_y = text_base_y
-
-        for(var i = 0 ; i< label.textSizeHS.length;i++){
-
-            textSizePX = Math.floor(label.textSizeHS[i] * cv.width)
-
-            if(label.textBaseLine == "bottom" || label.textBaseLine == "middle"){
-                text_y += textSizePX*text_y_inc_scale
-                if(i != 0) text_y += label.textLineHeightVS[i-1]*cv.height*text_y_inc_scale
-            }
-
-            ctx.font = label.textWeight[i] + " " + textSizePX.toString() + "px '" + label.textFont + "'"
-
-            ctx.textAlign = label.textAlign
-            ctx.textBaseline = label.textBaseLine
-            ctx.fillStyle = label.textFillStyle
-            ctx.fillText(label.text[i], text_x, text_y)
-
-            if(label.textBaseLine == "top" || label.textBaseLine == "middle"){
-                text_y += textSizePX*text_y_inc_scale
-                if(i != label.textSizeHS.length-1) text_y += label.textLineHeightVS[i]*cv.height*text_y_inc_scale
-            }
-            
-        }
 
     }
 }

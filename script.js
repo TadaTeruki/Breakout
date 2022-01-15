@@ -22,7 +22,7 @@ function main(){
     })
 
     set_game()
-
+    /*
     label_box["initial"] = {
         canvasType : "root",
         xHS : 0.0,
@@ -41,6 +41,20 @@ function main(){
 
         backFillStyle : "#445555f0",
         textFillStyle : "#eeeeee",
+    }
+    */
+
+    label_box["initial"] = {
+        canvasType : "root",
+        xHS : 0.0,
+        yVS : 0.0,
+        widthHS : 1.0,
+        heightVS : 1.0,
+        marginHS : 0.05,
+        text : [],
+        backFillStyle : "#f4f4f4e0",
+        shadowFillStyle : "#ffffff55",
+        shadowBlurHS : 0.1
     }
 
     loop()
