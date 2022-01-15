@@ -3,7 +3,7 @@ function getAnimID(interval_sec, image_num){
     return Math.floor(game.time/(interval_sec/screen.updateIntervalSec))%image_num
 }
 
-function drawImageOnRect(image_src, rect_x, rect_y, rect_width, rect_height) {
+function drawImageOnRect(image_src, rect_x, rect_y, rect_width, rect_height, flip_x = false, flip_y = false) {
     
     process = function(){
         var image_width  = image_stock[image_src].width
@@ -11,9 +11,19 @@ function drawImageOnRect(image_src, rect_x, rect_y, rect_width, rect_height) {
 
         var display_width  = Math.max(rect_width,  image_width/image_height*rect_height)
         var display_height = Math.max(rect_height, image_height/image_width*rect_width)
+
+        screen.ctx.save()
+
+        var xscale = flip_x ? -1:1
+        var yscale = flip_y ? -1:1
+        var xfix = flip_x ? -1:0
+        var yfix = flip_y ? -1:0
+        screen.ctx.scale(xscale, yscale)
         screen.ctx.drawImage(image_stock[image_src],
-            rect_x+(rect_width-display_width)/2, rect_y+(rect_height-display_height)/2, display_width, display_height
+            xscale*rect_x+rect_width*xfix+(rect_width-display_width)/2, yscale*rect_y+(rect_height-display_height)/2, display_width, display_height
         )
+
+        screen.ctx.restore()
     }
     
     if(image_stock[image_src] == undefined){
@@ -87,7 +97,7 @@ function drawBlocks() {
         screen.ctx.closePath()
 
         var anim_id = getAnimID(game.blocks[i].animationIntervalSec, game.blocks[i].animationImageSrc.length)
-        drawImageOnRect(game.blocks[i].animationImageSrc[anim_id], rect_x, rect_y, rect_width, rect_height)
+        drawImageOnRect(game.blocks[i].animationImageSrc[anim_id], rect_x, rect_y, rect_width, rect_height, game.blocks[i].animationXFlip)
 
     }
     
@@ -96,18 +106,6 @@ function drawBlocks() {
 // 全体の描画処理
 function draw() {
 
-    if(game.rightPressed && game.paddleXHS < 1.0-game.paddleWidthHS) {
-        game.paddleXHS += game.paddleSpeedHS
-    }
-    else if(game.leftPressed && game.paddleXHS > 0) {
-        game.paddleXHS -= game.paddleSpeedHS
-    }
-
-    if(game.ballReleased == true) {
-        moveBall()
-    } else {
-        set_ball()
-    }
 
     screen.ctx.clearRect(0, 0, screen.canvas.width, screen.canvas.height)
 

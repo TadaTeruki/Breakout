@@ -27,33 +27,22 @@ function main(){
 function loop(){
     game.time++
     if(game.time > game.max_time){ game.time = 0 }
+    
+    if(game.rightPressed && game.paddleXHS < 1.0-game.paddleWidthHS) {
+        game.paddleXHS += game.paddleSpeedHS
+    }
+    else if(game.leftPressed && game.paddleXHS > 0) {
+        game.paddleXHS -= game.paddleSpeedHS
+    }
+
     moveBlocks()
+
+    if(game.ballReleased == true) {
+        moveBall()
+    } else {
+        set_ball()
+    }
     draw()
 }
 
-
-function set_blocks(){
-
-    for(var i = 0; i < 10; i++){
-        game.blocks.push({
-            
-            xHS : Math.random()*1.0,
-            yVS : Math.random()*game.blocksHeightVS,
-            widthHS  : 0.2,
-            heightVS : 0.05,
-            available: true,
-            ballPiercing : true,
-            animationImageSrc : ["resources/test_fish0.png"],
-            animationIntervalSec : 0.01,
-            seed : new Array(10).fill(Math.random()),
-            dxFuncHS : function(){
-                return -0.001*this.seed[0]*Math.abs(Math.cos(game.time/Math.PI*this.seed[1]*0.1))
-            },
-            dyFuncVS : function(){
-                return 0.0
-            }
-        })
-    }
-    
-}
 

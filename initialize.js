@@ -6,6 +6,7 @@ function set_screen(){
     screen.canvas_margin_scale = 0.1
     screen.canvas = document.getElementById("canvas_src")
     screen.ctx = screen.canvas.getContext("2d")
+    
 }
 
 function set_ball(){
@@ -21,7 +22,7 @@ function set_game(){
     game.collisionFillStyle = "rgba(200,200,200,20)"
 
     game.ballRadiusHS = 0.02
-    game.ballImageSrc = ["resources/test_uniA.png", "resources/test_uniB.png"]
+    game.ballImageSrc = ["resources/netA.png"]
     game.ballAnimationIntervalSec = 0.3
 
     game.paddleWidthHS = 0.15
@@ -62,3 +63,37 @@ function set_canvas(){
     screen.canvas.style.left = ((window.innerWidth-screen.canvas.width)*0.5).toString() + "px"
     
 }
+
+function set_blocks(){
+
+    game.blocks.push({
+            
+        xHS : game.paddleXHS + game.paddleWidthHS*0.5,
+        yVS : 0.4,
+        widthHS  : 0.1,
+        heightVS : 0.06,
+        available: true,
+        ballPiercing : false,
+        animationImageSrc : ["resources/uniA.png"],
+        animationIntervalSec : 0.01,
+        animationXFlip : false,
+        seed : new Array(10).fill(Math.random()),
+        dxFuncHS : function(){
+            var dx = (game.paddleXHS + game.paddleWidthHS*0.5 - this.xHS) * 0.05
+            this.animationXFlip =  dx > 0
+            return dx
+        },
+        dyFuncVS : function(){
+            return 0.0
+        },
+        brokenFunc : function(){
+            lostBall()
+        },
+        passFunc : function(){
+            
+        }
+    })
+    for(var i = 0; i < 10; i++) generate_block(i%2 == 0)
+    
+}
+

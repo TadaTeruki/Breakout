@@ -1,23 +1,14 @@
-// ブロックを破壊する
-function breakBlock(i){
-    game.blocks[i].available = false
 
-    // すべてのブロックが破壊されたかを判定する
-    var allBlockBroken = true
-    for(var i = 0; i<game.blocks.length; i++){
-        allBlockBroken = allBlockBroken && (game.blocks[i].available == false)
-    }
-    if(allBlockBroken == true) {
-        completeCallback()
-    }
-
-}
 
 function moveBlocks(){
     for(var i = 0; i<game.blocks.length; i++){
         if(game.blocks[i].available == false) continue
         game.blocks[i].xHS += game.blocks[i].dxFuncHS()
         game.blocks[i].yVS += game.blocks[i].dyFuncVS()
+
+        if(game.blocks[i].xHS < -game.blocks[i].widthHS*2.0 || game.blocks[i].xHS > 1.0+game.blocks[i].widthHS){
+            game.blocks[i].passFunc()
+        }
     }
 }
 
@@ -50,8 +41,8 @@ function moveBall(){
             if(ballXHS < 0.0 || ballXHS > 1.0 || ballYVS < 0.0 || ballYVS > 1.0){
                 accepted = false
                 // 枠の底にいる場合(=ボールを取りこぼした場合)は、当たり判定ループから抜け、処理を行う
-                if (ballYVS > game.paddleYVS) {
-                    pickFallenBall()
+                if (ballYVS > (1.0 + game.paddleYVS)*0.5) {
+                    lostBall()
                     break CollisionLoop
                 }
                 
@@ -98,7 +89,7 @@ function moveBall(){
     
     for(var i = 0; i < brokenBlocksList.length; i++){
         var place = brokenBlocksList[i]
-        breakBlock(place)
+        game.blocks[place].brokenFunc()
     }
 
 }
