@@ -113,10 +113,9 @@ function drawBlocks() {
 
 function drawLabel(type) {
 
-    var label_keys = Object.keys(label_box)
-    for(var i = 0; i < label_keys.length; i++){
+    for(key in label_box){
 
-        label = label_box[label_keys[i]]
+        label = label_box[key]
         if(label.canvasType != type) continue
 
         var cv, ctx
@@ -137,7 +136,7 @@ function drawLabel(type) {
         var rect_height = label.heightVS * cv.height - margin*2
 
 
-        ctx.fillStyle = label.backFillStyle
+        ctx.fillStyle = label.mouseIn ? label.backFillStyleMouseIn:label.backFillStyle
         ctx.shadowColor = label.shadowFillStyle
         ctx.shadowOffsetX = 0
         ctx.shadowOffsetY = 0
@@ -150,6 +149,8 @@ function drawLabel(type) {
             rect_height
         )
         ctx.closePath()
+
+        ctx.shadowBlur = 0
 
         if(label.text.length != 0){
             var text_x = rect_x
@@ -197,6 +198,8 @@ function drawLabel(type) {
         
 
     }
+
+    
 }
 
 // 全体の描画処理

@@ -81,8 +81,10 @@ function set_canvas(){
     screen.board_cv.height = screen.root_cv.height
 
     screen.root_cv.style.position = "fixed"
-    screen.root_cv.style.top  = ((window.innerHeight-screen.root_cv.height)*0.5).toString() +"px"
-    screen.root_cv.style.left = ((window.innerWidth-screen.root_cv.width)*0.5).toString() + "px"
+    screen.root_cv.positionX = ((window.innerWidth-screen.root_cv.width)*0.5)
+    screen.root_cv.positionY = ((window.innerHeight-screen.root_cv.height)*0.5)
+    screen.root_cv.style.top  = screen.root_cv.positionY.toString() + "px"
+    screen.root_cv.style.left = screen.root_cv.positionX.toString() + "px"
     
 }
 

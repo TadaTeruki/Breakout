@@ -14,6 +14,9 @@ function main(){
     // イベントハンドラの追加
     document.addEventListener("keydown", keyDownHandler, false)
     document.addEventListener("keyup", keyUpHandler, false)
+    screen.root_cv.addEventListener("mousemove", motionHandler, false)
+    screen.root_cv.addEventListener("mouseout", mouseOutHandler, false)
+    screen.root_cv.addEventListener("mouseup", mouseUpHandler, false)
 
     window.addEventListener("resize", function(event){
         set_canvas()
@@ -22,42 +25,13 @@ function main(){
     })
 
     set_game()
-    /*
-    label_box["initial"] = {
-        canvasType : "root",
-        xHS : 0.0,
-        yVS : 0.0,
-        widthHS : 1.0,
-        heightVS : 1.0,
-        marginHS : 0.1,
-        textAlign : "left",
-        textBaseLine : "middle",
-        textFont : "M PLUS Rounded 1c",
 
-        text : ["タイトル", "〜ルール〜"],
-        textSizeHS : [0.05, 0.05],
-        textLineHeightVS : [0.1],
-        textWeight : ["bold", ""],
 
-        backFillStyle : "#445555f0",
-        textFillStyle : "#eeeeee",
-    }
-    */
-
-    label_box["initial"] = {
-        canvasType : "root",
-        xHS : 0.0,
-        yVS : 0.0,
-        widthHS : 1.0,
-        heightVS : 1.0,
-        marginHS : 0.05,
-        text : [],
-        backFillStyle : "#f4f4f4e0",
-        shadowFillStyle : "#ffffff55",
-        shadowBlurHS : 0.1
-    }
-
-    loop()
+    document.fonts.ready.then(function(fontFaceSet) {
+        setInitialSceneLabel()
+        loop()
+    });
+    
 }
 
 function loop(){
@@ -82,6 +56,8 @@ function loop(){
         }
 
         setTimeout(loop, 1000 * screen.updateIntervalSec)
+    } else {
+        setTimeout(loop, 1000)
     }
 
     draw()
