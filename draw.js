@@ -5,8 +5,6 @@ function getAnimID(interval_sec, image_num){
 
 function drawImageOnRect(ctx, image_src, rect_x, rect_y, rect_width, rect_height, flip_x = false, flip_y = false, redraw_when_loaded = false) {
     
-    
-
     process = function(){
         
         var image_width  = image_stock[image_src].width
@@ -31,11 +29,14 @@ function drawImageOnRect(ctx, image_src, rect_x, rect_y, rect_width, rect_height
     }
     
     if(image_stock[image_src] == undefined){
+        game.imageLoadProcess++
         image_stock[image_src] = new Image()
         image_stock[image_src].src = image_src
         image_stock[image_src].onload = function(){
+            game.imageLoadProcess--
             process()
-            if(redraw_when_loaded)draw()
+            //if(redraw_when_loaded)draw()
+            
         }
 
     } else {

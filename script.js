@@ -36,7 +36,7 @@ function main(){
 
 function loop(){
 
-    if(game.pause == false){
+    if(game.pause == false && game.imageLoadProcess == 0){
         game.time++
         if(game.time > game.max_time){ game.time = 0 }
     

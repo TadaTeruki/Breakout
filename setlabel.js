@@ -66,8 +66,7 @@ function setInitialSceneLabel(){
         textFont : "M PLUS Rounded 1c",
         mouseIn : false,
         clickEvent : function(){
-            setGameSceneLabel()
-            game.pause = false
+            setCreditLabel()
         } ,
 
         text : ["クレジット"],
@@ -113,4 +112,154 @@ function setInitialSceneLabel(){
 
 function setGameSceneLabel(){
     label_box = {}
+}
+
+function setCreditLabel(){
+    label_box = {}
+
+    label_box["credit_back"] = {
+        canvasType : "root",
+        xHS : 0.1,
+        yVS : 0.1,
+        widthHS : 0.8,
+        heightVS : 0.8,
+        marginHS : 0.0,
+        textAlign : "left",
+        textBaseLine : "middle",
+        textFont : "M PLUS Rounded 1c",
+        clickEvent : undefined,
+
+        text : [],
+
+        backFillStyle : "#f4f4f4e0",
+        textFillStyle : "#333333",
+        shadowFillStyle : "#ffffff55",
+        shadowBlurHS : 0.1
+    }
+    
+    label_box["credit_main"] = {
+        canvasType : "root",
+        xHS : 0.18,
+        yVS : 0.25,
+        widthHS : 0.4,
+        heightVS : 0.6,
+        marginHS : 0.0,
+        textAlign : "left",
+        textBaseLine : "top",
+        textFont : "M PLUS Rounded 1c",
+        clickEvent : undefined,
+
+        text : ["🐟 開発メンバー 🐟",
+                "ゆきだま",
+                "   ゲームデザイン・BGM選曲",
+                "       コーディング(支援)",
+                "やま",
+                "   グラフィックス",
+                "       ゲームデザイン(支援)",
+                "ぺるき",
+                "   企画・コーディング",
+                "       ゲームデザイン(支援)",
+        ],
+        textSizeHS : [0.03,
+                      0.028,
+                      0.025,
+                      0.02,
+                      0.028,
+                      0.025,
+                      0.02,
+                      0.028,
+                      0.025,
+                      0.02],
+        textLineHeightVS : [0.04,
+                            0.015,
+                            0.015,
+                            0.04,
+                            0.015,
+                            0.015,
+                            0.04,
+                            0.015,
+                            0.015],
+        textWeight : ["bold",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      ""],
+
+        backFillStyle : "#ffffff00",
+        textFillStyle : "#333333",
+        shadowFillStyle : "#00000000",
+        shadowBlurHS : 0.0
+    }
+
+    label_box["credit_sub"] = {
+        canvasType : "root",
+        xHS : 0.57,
+        yVS : 0.25,
+        widthHS : 0.3,
+        heightVS : 0.5,
+        marginHS : 0.0,
+        textAlign : "left",
+        textBaseLine : "top",
+        textFont : "M PLUS Rounded 1c",
+        clickEvent : undefined,
+
+        text : ["🐠 支援者の方々 🐠",
+                "雪見だいふく",
+                "ファラット",
+                "shigure",
+                "             企画(支援)",
+        ],
+        textSizeHS : [0.03,
+                      0.028,
+                      0.028,
+                      0.028,
+                      0.02,],
+        textLineHeightVS : [0.04,
+                            0.015,
+                            0.015,
+                            0.015,],
+        textWeight : ["bold",
+                      "",
+                      "",
+                      "",
+                      "",],
+
+        backFillStyle : "#ffffff00",
+        textFillStyle : "#333333",
+        shadowFillStyle : "#00000000",
+        shadowBlurHS : 0.0
+    }
+
+    label_box["back"] = {
+        canvasType : "root",
+        xHS : 0.7,
+        yVS : 0.75,
+        widthHS : 0.15,
+        heightVS : 0.08,
+        marginHS : 0.0,
+        textAlign : "center",
+        textBaseLine : "middle",
+        textFont : "M PLUS Rounded 1c",
+        mouseIn : false,
+        clickEvent : function(){
+            setInitialSceneLabel()
+        } ,
+
+        text : ["戻る"],
+        textSizeHS : [0.025],
+        textLineHeightVS : [],
+        textWeight : ["bold"],
+
+        backFillStyle : "#888888",
+        backFillStyleMouseIn : "#555555",
+        textFillStyle : "#ffffff",
+        shadowFillStyle : "#aaaaaa",
+        shadowBlurHS : 0.01
+    }
+
 }

@@ -30,7 +30,7 @@ function set_ball(){
 
 function set_game(){
 
-    game.collisionFillStyle = "rgba(200,200,200,20)"
+    game.collisionFillStyle = "rgba(200,200,200,0)"
 
     game.ballRadiusHS = 0.02
     game.ballImageSrc = ["resources/netA.png"]
@@ -53,6 +53,7 @@ function set_game(){
     game.time = 0
     game.max_time = 2*2*2*2*3*3*5*7*11*13
     game.pause = true
+    game.imageLoadProcess = 0
     
     set_ball()
     set_blocks()
