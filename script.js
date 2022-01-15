@@ -31,13 +31,13 @@ function main(){
         heightVS : 1.0,
         marginHS : 0.1,
         textAlign : "left",
-        textBaseLine : "top",
+        textBaseLine : "middle",
         textFont : "M PLUS Rounded 1c",
 
-        text : ["Hello!ああああ", "〜ルール説明〜", "ボールを操作して、多くの魚を捕まえよう"],
-        textSizePX : [35, 15, 15],
-        textLineHeightPX : [15, 5],
-        textWeight : ["bold", "", ""],
+        text : ["タイトル", "〜ルール〜"],
+        textSizeHS : [0.05, 0.05],
+        textLineHeightVS : [0.1],
+        textWeight : ["bold", ""],
 
         backFillStyle : "#445555f0",
         textFillStyle : "#eeeeee",

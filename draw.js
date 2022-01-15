@@ -153,9 +153,9 @@ function drawLabel(type) {
         if(label.textAlign == "right") text_x = rect_x + rect_width
 
         var text_overall_height = 0
-        for(var i = 0 ; i< label.textSizePX.length;i++){
-            if(i != 0) text_overall_height += label.textLineHeightPX[i-1]
-            text_overall_height += label.textSizePX[i]
+        for(var i = 0 ; i< label.textSizeHS.length;i++){
+            if(i != 0) text_overall_height += label.textLineHeightVS[i-1]*cv.height
+            text_overall_height += label.textSizeHS[i]*cv.width
         }
 
         var text_base_y = rect_y + rect_height/2 - text_overall_height/2
@@ -165,38 +165,30 @@ function drawLabel(type) {
 
         var text_y_inc_scale = label.textBaseLine == "middle" ? 0.5:1
         var text_y = text_base_y
-        for(var i = 0 ; i< label.textSizePX.length;i++){
+
+        for(var i = 0 ; i< label.textSizeHS.length;i++){
+
+            textSizePX = Math.floor(label.textSizeHS[i] * cv.width)
+
             if(label.textBaseLine == "bottom" || label.textBaseLine == "middle"){
-                text_y += label.textSizePX[i]*text_y_inc_scale
-                if(i != 0) text_y += label.textLineHeightPX[i-1]*text_y_inc_scale
+                text_y += textSizePX*text_y_inc_scale
+                if(i != 0) text_y += label.textLineHeightVS[i-1]*cv.height*text_y_inc_scale
             }
 
-            ctx.font = label.textWeight[i] + " " + label.textSizePX[i].toString() + "px '" + label.textFont + "'"
+            ctx.font = label.textWeight[i] + " " + textSizePX.toString() + "px '" + label.textFont + "'"
 
             ctx.textAlign = label.textAlign
             ctx.textBaseline = label.textBaseLine
             ctx.fillStyle = label.textFillStyle
             ctx.fillText(label.text[i], text_x, text_y)
 
-
             if(label.textBaseLine == "top" || label.textBaseLine == "middle"){
-                text_y += label.textSizePX[i]*text_y_inc_scale
-                if(i != label.textSizePX.length-1) text_y += label.textLineHeightPX[i]*text_y_inc_scale
+                text_y += textSizePX*text_y_inc_scale
+                if(i != label.textSizeHS.length-1) text_y += label.textLineHeightVS[i]*cv.height*text_y_inc_scale
             }
             
         }
 
-        /*
-        var text_y = rect_y + rect_height/2
-        
-        ctx.font = label.textFormat + " '" + label.textFont + "'"
-        ctx.textAlign = label.textAlign
-        ctx.textBaseline = "top"
-        ctx.fillStyle = label.textFillStyle
-        
-        ctx.fillText(label.text, text_x, text_y)
-        */
-        
     }
 }
 
