@@ -1,12 +1,23 @@
 
 function set_screen(){
-    screen.width_aspect = 4
-    screen.height_aspect = 5
+
+    screen.root_cv = document.getElementById("canvas_src")
+    screen.root_ctx = screen.root_cv.getContext("2d")
+    screen.root_cv_width_aspect = 9
+    screen.root_cv_height_aspect = 7
+    screen.root_cv_margin_scale = 0.0
+    screen.root_cv_min_width = 100
+    screen.root_cv_min_height = screen.root_cv_min_width/screen.root_cv_width_aspect*screen.root_cv_height_aspect
+
+    screen.game_cv = document.createElement("canvas")
+    screen.game_ctx = screen.game_cv.getContext("2d")
+    screen.game_cv_width_aspect = 4
+    screen.game_cv_height_aspect = 5
+
+    screen.board_cv = document.createElement("canvas")
+    screen.board_ctx = screen.board_cv.getContext("2d")
+
     screen.resize_scale = 1.0
-    screen.canvas_margin_scale = 0.1
-    screen.canvas = document.getElementById("canvas_src")
-    screen.ctx = screen.canvas.getContext("2d")
-    
 }
 
 function set_ball(){
@@ -41,6 +52,9 @@ function set_game(){
     game.leftPressed = false
     game.time = 0
     game.max_time = 2*2*2*2*3*3*5*7*11*13
+    game.pause = false
+
+    //game.uiBox = []
     
     set_ball()
     set_blocks()
@@ -49,28 +63,42 @@ function set_game(){
 function set_canvas(){
 
     // canvas に関する設定 (HTMLの内容に反映される)
-    screen.canvas.width =
-        Math.min(window.innerWidth, window.innerHeight/screen.height_aspect*screen.width_aspect) * (1.0-screen.canvas_margin_scale*2)
-    screen.canvas.height =
-        Math.min(window.innerHeight, window.innerWidth/screen.width_aspect*screen.height_aspect) * (1.0-screen.canvas_margin_scale*2)
+    screen.root_cv.width =
+        Math.min(window.innerWidth, window.innerHeight/screen.root_cv_height_aspect*screen.root_cv_width_aspect) * (1.0-screen.root_cv_margin_scale*2)
+    screen.root_cv.height =
+        Math.min(window.innerHeight, window.innerWidth/screen.root_cv_width_aspect*screen.root_cv_height_aspect) * (1.0-screen.root_cv_margin_scale*2)
 
-    if(screen.canvas.width < 0.0 || screen.canvas.height < 0.0){
-        screen.canvas.width = 0.0
-        screen.canvas.height = 0.0
+
+    if(screen.root_cv.width < screen.root_cv_min_width || screen.root_cv.height < screen.root_cv_min_height){
+        screen.root_cv.width = screen.root_cv_min_width
+        screen.root_cv.height = screen.root_cv_min_height
     }
-    screen.canvas.style.position = "fixed"
-    screen.canvas.style.top  = ((window.innerHeight-screen.canvas.height)*0.5).toString() +"px"
-    screen.canvas.style.left = ((window.innerWidth-screen.canvas.width)*0.5).toString() + "px"
+    
+    screen.game_cv.width =
+        Math.min(screen.root_cv.width, screen.root_cv.height/screen.game_cv_height_aspect*screen.game_cv_width_aspect)
+    screen.game_cv.height =
+        Math.min(screen.root_cv.height, screen.root_cv.width/screen.game_cv_width_aspect*screen.game_cv_height_aspect)
+
+    screen.board_cv.width = screen.root_cv.width-screen.game_cv.width
+    screen.board_cv.height = screen.root_cv.height
+
+    screen.root_cv.style.position = "fixed"
+    screen.root_cv.style.top  = ((window.innerHeight-screen.root_cv.height)*0.5).toString() +"px"
+    screen.root_cv.style.left = ((window.innerWidth-screen.root_cv.width)*0.5).toString() + "px"
     
 }
 
 function set_blocks(){
 
+    var enemyWidthHS = 0.1
+    var enemyXHS = function(){ return game.paddleXHS + (game.paddleWidthHS-enemyWidthHS)/2 }
+    
+
     game.blocks.push({
             
-        xHS : game.paddleXHS + game.paddleWidthHS*0.5,
-        yVS : 0.4,
-        widthHS  : 0.1,
+        xHS : enemyXHS(),
+        yVS : 0.42,
+        widthHS  : enemyWidthHS,
         heightVS : 0.06,
         available: true,
         ballPiercing : false,
@@ -79,7 +107,7 @@ function set_blocks(){
         animationXFlip : false,
         seed : new Array(10).fill(Math.random()),
         dxFuncHS : function(){
-            var dx = (game.paddleXHS + game.paddleWidthHS*0.5 - this.xHS) * 0.05
+            var dx = (enemyXHS() - this.xHS) * 0.05
             this.animationXFlip =  dx > 0
             return dx
         },

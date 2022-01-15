@@ -12,8 +12,8 @@ function make_new_block(obj){
 
 function generate_block(from_right = false){
 
-    var blockScale = 1.0+Math.random()*0.5
-    var speedScale = 1.0+Math.random()*1.0
+    var blockScale = 1.0 + Math.random()*0.5
+    var speedScale = 1.0 + Math.random()*1.0
 
     var widthHS = 0.15*blockScale
     var heightVS = 0.03*blockScale
