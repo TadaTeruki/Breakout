@@ -2,6 +2,7 @@
 var game = {}
 var image_stock = {}
 var screen = {}
+var label_box = {}
 
 function main(){
     set_screen()
@@ -22,6 +23,26 @@ function main(){
 
     set_game()
 
+    label_box["initial"] = {
+        canvasType : "root",
+        xHS : 0.0,
+        yVS : 0.0,
+        widthHS : 1.0,
+        heightVS : 1.0,
+        marginHS : 0.1,
+        textAlign : "left",
+        textBaseLine : "top",
+        textFont : "M PLUS Rounded 1c",
+
+        text : ["Hello!ああああ", "〜ルール説明〜", "ボールを操作して、多くの魚を捕まえよう"],
+        textSizePX : [35, 15, 15],
+        textLineHeightPX : [15, 5],
+        textWeight : ["bold", "", ""],
+
+        backFillStyle : "#445555f0",
+        textFillStyle : "#eeeeee",
+    }
+
     loop()
 }
 
@@ -30,21 +51,22 @@ function loop(){
     if(game.pause == false){
         game.time++
         if(game.time > game.max_time){ game.time = 0 }
-        
+    
         if(game.rightPressed && game.paddleXHS < 1.0-game.paddleWidthHS) {
             game.paddleXHS += game.paddleSpeedHS
         }
         else if(game.leftPressed && game.paddleXHS > 0) {
             game.paddleXHS -= game.paddleSpeedHS
         }
-    
+
         moveBlocks()
-    
+
         if(game.ballReleased == true) {
             moveBall()
         } else {
             set_ball()
         }
+
         setTimeout(loop, 1000 * screen.updateIntervalSec)
     }
 

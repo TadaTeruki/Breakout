@@ -3,9 +3,12 @@ function getAnimID(interval_sec, image_num){
     return Math.floor(game.time/(interval_sec/screen.updateIntervalSec))%image_num
 }
 
-function drawImageOnRect(ctx, image_src, rect_x, rect_y, rect_width, rect_height, flip_x = false, flip_y = false) {
+function drawImageOnRect(ctx, image_src, rect_x, rect_y, rect_width, rect_height, flip_x = false, flip_y = false, redraw_when_loaded = false) {
     
+    
+
     process = function(){
+        
         var image_width  = image_stock[image_src].width
         var image_height = image_stock[image_src].height
 
@@ -17,22 +20,28 @@ function drawImageOnRect(ctx, image_src, rect_x, rect_y, rect_width, rect_height
         var xscale = flip_x ? -1:1
         var yscale = flip_y ? -1:1
         var xfix = flip_x ? -1:0
-        var yfix = flip_y ? -1:0
         ctx.scale(xscale, yscale)
         ctx.drawImage(image_stock[image_src],
             xscale*rect_x+rect_width*xfix+(rect_width-display_width)/2, yscale*rect_y+(rect_height-display_height)/2, display_width, display_height
         )
 
         ctx.restore()
+
+        
     }
     
     if(image_stock[image_src] == undefined){
         image_stock[image_src] = new Image()
         image_stock[image_src].src = image_src
-        image_stock[image_src].onload = process
+        image_stock[image_src].onload = function(){
+            process()
+            if(redraw_when_loaded)draw()
+        }
+
     } else {
         process()
     }
+
 
 }
 
@@ -89,8 +98,8 @@ function drawBlocks() {
         screen.game_ctx.rect(
             rect_x + margin,
             rect_y + margin,
-            rect_width  - margin,
-            rect_height - margin
+            rect_width  - margin*2,
+            rect_height - margin*2
         )
         screen.game_ctx.fillStyle = game.collisionFillStyle
         screen.game_ctx.fill()
@@ -102,19 +111,112 @@ function drawBlocks() {
     
 }
 
+function drawLabel(type) {
+
+    var label_keys = Object.keys(label_box)
+    for(var i = 0; i < label_keys.length; i++){
+
+        label = label_box[label_keys[i]]
+        if(label.canvasType != type) continue
+
+        var cv, ctx
+        if(label.canvasType == "root"){
+            cv = screen.root_cv
+            ctx = screen.root_ctx
+        } else if(label.canvasType == "board"){
+            cv = screen.board_cv
+            ctx = screen.board_ctx
+        } else {
+            continue
+        }
+
+        var margin = label.marginHS * cv.width
+        var rect_x = label.xHS * cv.width + margin
+        var rect_y = label.yVS * cv.height + margin
+        var rect_width = label.widthHS * cv.width - margin*2
+        var rect_height = label.heightVS * cv.height - margin*2
+
+        ctx.rect(
+            rect_x,
+            rect_y,
+            rect_width,
+            rect_height
+        )
+
+        ctx.fillStyle = label.backFillStyle
+        ctx.fill()
+        ctx.closePath()
+        
+        var text_x = rect_x
+        if(label.textAlign == "left") text_x = rect_x
+        if(label.textAlign == "center") text_x = rect_x + rect_width/2
+        if(label.textAlign == "right") text_x = rect_x + rect_width
+
+        var text_overall_height = 0
+        for(var i = 0 ; i< label.textSizePX.length;i++){
+            if(i != 0) text_overall_height += label.textLineHeightPX[i-1]
+            text_overall_height += label.textSizePX[i]
+        }
+
+        var text_base_y = rect_y + rect_height/2 - text_overall_height/2
+        if(label.textBaseLine == "top") text_base_y = rect_y
+        if(label.textBaseLine == "bottom") text_base_y = rect_y + rect_height - text_overall_height
+
+
+        var text_y_inc_scale = label.textBaseLine == "middle" ? 0.5:1
+        var text_y = text_base_y
+        for(var i = 0 ; i< label.textSizePX.length;i++){
+            if(label.textBaseLine == "bottom" || label.textBaseLine == "middle"){
+                text_y += label.textSizePX[i]*text_y_inc_scale
+                if(i != 0) text_y += label.textLineHeightPX[i-1]*text_y_inc_scale
+            }
+
+            ctx.font = label.textWeight[i] + " " + label.textSizePX[i].toString() + "px '" + label.textFont + "'"
+
+            ctx.textAlign = label.textAlign
+            ctx.textBaseline = label.textBaseLine
+            ctx.fillStyle = label.textFillStyle
+            ctx.fillText(label.text[i], text_x, text_y)
+
+
+            if(label.textBaseLine == "top" || label.textBaseLine == "middle"){
+                text_y += label.textSizePX[i]*text_y_inc_scale
+                if(i != label.textSizePX.length-1) text_y += label.textLineHeightPX[i]*text_y_inc_scale
+            }
+            
+        }
+
+        /*
+        var text_y = rect_y + rect_height/2
+        
+        ctx.font = label.textFormat + " '" + label.textFont + "'"
+        ctx.textAlign = label.textAlign
+        ctx.textBaseline = "top"
+        ctx.fillStyle = label.textFillStyle
+        
+        ctx.fillText(label.text, text_x, text_y)
+        */
+        
+    }
+}
+
 // 全体の描画処理
 function draw() {
 
     screen.game_ctx.clearRect(0, 0, screen.game_cv.width, screen.game_cv.height)
     screen.board_ctx.clearRect(0, 0, screen.board_cv.width, screen.board_cv.height)
 
-    drawImageOnRect(screen.game_ctx, "resources/test_background.png", 0, 0, screen.game_cv.width, screen.game_cv.height)
-    drawImageOnRect(screen.board_ctx, "resources/test_background.png", 0, 0, screen.board_cv.width, screen.board_cv.height)
+    drawImageOnRect(screen.game_ctx, "resources/test_background.png", 0, 0, screen.game_cv.width, screen.game_cv.height, false, false, true)
+    drawImageOnRect(screen.board_ctx, "resources/test_background.png", 0, 0, screen.board_cv.width, screen.board_cv.height, false, false, true)
     
-    drawBall()
-    drawPaddle()
-    drawBlocks()
+    if(game.pause == false){
+        drawBall()
+        drawPaddle()
+        drawBlocks()
+    }
 
     screen.root_ctx.drawImage(screen.game_cv, 0, 0)
     screen.root_ctx.drawImage(screen.board_cv, screen.game_cv.width, 0)
+
+    drawLabel("root")
 }

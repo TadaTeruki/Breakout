@@ -52,9 +52,7 @@ function set_game(){
     game.leftPressed = false
     game.time = 0
     game.max_time = 2*2*2*2*3*3*5*7*11*13
-    game.pause = false
-
-    //game.uiBox = []
+    game.pause = true
     
     set_ball()
     set_blocks()
@@ -92,7 +90,6 @@ function set_blocks(){
 
     var enemyWidthHS = 0.1
     var enemyXHS = function(){ return game.paddleXHS + (game.paddleWidthHS-enemyWidthHS)/2 }
-    
 
     game.blocks.push({
             
