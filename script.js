@@ -10,12 +10,15 @@ function main(){
     screen.game_cv.start_width  = screen.game_cv.width
     screen.game_cv.start_height = screen.game_cv.height
     screen.updateIntervalSec = 0.01
+
+    draw()
     
     // イベントハンドラの追加
     document.addEventListener("keydown", keyDownHandler, false)
     document.addEventListener("keyup", keyUpHandler, false)
     screen.root_cv.addEventListener("mousemove", motionHandler, false)
     screen.root_cv.addEventListener("mouseout", mouseOutHandler, false)
+    screen.root_cv.addEventListener("mousedown", mouseDownHandler, false)
     screen.root_cv.addEventListener("mouseup", mouseUpHandler, false)
 
     window.addEventListener("resize", function(event){
@@ -24,13 +27,12 @@ function main(){
         draw()
     })
 
-    set_game()
-
-
     document.fonts.ready.then(function(fontFaceSet) {
         setInitialSceneLabel()
         loop()
     });
+
+    
     
 }
 
@@ -39,7 +41,13 @@ function loop(){
     if(game.pause == false && game.imageLoadProcess == 0){
         game.time++
         if(game.time > game.max_time){ game.time = 0 }
-    
+
+        game.timeRest--
+
+        if(game.timeRest <= 0){
+            finishGame()
+        }
+        
         if(game.rightPressed && game.paddleXHS < 1.0-game.paddleWidthHS) {
             game.paddleXHS += game.paddleSpeedHS
         }
@@ -54,6 +62,8 @@ function loop(){
         } else {
             set_ball()
         }
+
+        updateGameSceneLabel()
 
         setTimeout(loop, 1000 * screen.updateIntervalSec)
     } else {

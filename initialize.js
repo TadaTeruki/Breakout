@@ -18,6 +18,8 @@ function set_screen(){
     screen.board_ctx = screen.board_cv.getContext("2d")
 
     screen.resize_scale = 1.0
+
+    screen.game_onprocess = false
 }
 
 function set_ball(){
@@ -52,11 +54,17 @@ function set_game(){
     game.leftPressed = false
     game.time = 0
     game.max_time = 2*2*2*2*3*3*5*7*11*13
+    
     game.pause = true
     game.imageLoadProcess = 0
 
-    game.readyCount = 0
+    game.timeRest = 20/screen.updateIntervalSec
+    game.netRest = 3
+    
     game.maxReadyCount = 3
+    game.readyCount = game.maxReadyCount
+
+    game.score = 0
     
     set_ball()
     set_blocks()

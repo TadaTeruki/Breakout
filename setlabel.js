@@ -3,7 +3,7 @@ function setInitialSceneLabel(){
 
     label_box = {}
     
-    label_box["initial_a"] = {
+    label_box["initial_back"] = {
         canvasType : "root",
         xHS : 0.0,
         yVS : 0.0,
@@ -38,10 +38,7 @@ function setInitialSceneLabel(){
         textBaseLine : "middle",
         textFont : "M PLUS Rounded 1c",
         mouseIn : false,
-        clickEvent : function(){
-            setGameSceneLabel()
-            startReadyCount()
-        } ,
+        clickEvent : startGame ,
 
         text : ["スタート"],
         textSizeHS : [0.045],
@@ -127,22 +124,31 @@ function setReadyCount(){
             setReadyCount()
             if(label_box["ready"] != undefined) label_box["ready"].text[1] = game.readyCount.toString()
         }
-
+        draw()
         
     }, 1000)
 }
 
 function startReadyCount(){
-    game.readyCount = game.maxReadyCount
-
     setReadyCount()
+}
+
+function updateGameSceneLabel(){
+    if(label_box["restInfo"] != undefined){
+        label_box["restInfo"].text[1] = Math.ceil(game.timeRest*screen.updateIntervalSec).toString()
+        label_box["restInfo"].text[3] = game.netRest.toString()
+    }
+    if(label_box["score"] != undefined){
+        label_box["score"].text[1] = game.score.toString()
+    }
+
 }
 
 function setGameSceneLabel(){
     label_box = {}
 
     label_box["ready"] = {
-        canvasType : "root",
+        canvasType : "game",
         xHS : 0.0,
         yVS : 0.0,
         widthHS : 1.0,
@@ -164,7 +170,7 @@ function setGameSceneLabel(){
         shadowBlurHS : 0
     }
 
-    label_box["time"] = {
+    label_box["restInfo"] = {
         canvasType : "board",
         xHS : 0.0,
         yVS : 0.0,
@@ -176,7 +182,7 @@ function setGameSceneLabel(){
         textFont : "M PLUS Rounded 1c",
         clickEvent : undefined,
 
-        text : ["残り時間", "100", "残り網数", "3"],
+        text : ["残り時間", "", "残り網数", ""],
         textSizeHS : [0.13, 0.25, 0.13, 0.25],
         textLineHeightVS : [0.01, 0.05, 0.01],
         textWeight : ["", "", "", ""],
@@ -200,7 +206,7 @@ function setGameSceneLabel(){
         textFont : "M PLUS Rounded 1c",
         clickEvent : undefined,
 
-        text : ["スコア", "0"],
+        text : ["スコア", ""],
         textSizeHS : [0.13, 0.25],
         textLineHeightVS : [0.01],
         textWeight : ["", "", "", ""],
@@ -244,11 +250,118 @@ function setGameSceneLabel(){
 
 }
 
+function setResultLabel(){
+    label_box["finish"] = undefined
+
+    label_box["result_back"] = {
+        canvasType : "game",
+        xHS : 0.0,
+        yVS : 0.0,
+        widthHS : 1.0,
+        heightVS : 1.0,
+        marginHS : 0.0,
+        textAlign : "center",
+        textBaseLine : "middle",
+        textFont : "M PLUS Rounded 1c",
+        clickEvent : undefined,
+
+        text : [],
+
+        background : true,
+        backFillStyle : "#444444e0",
+        backFillStyleMouseIn : "#444444e0",
+        shadowBlurHS : 0
+    }
+
+    label_box["button_restart"] = {
+        canvasType : "game",
+        xHS : 0.2,
+        yVS : 0.7,
+        widthHS : 0.4,
+        heightVS : 0.1,
+        marginHS : 0.0,
+        textAlign : "center",
+        textBaseLine : "middle",
+        textFont : "M PLUS Rounded 1c",
+        mouseIn : false,
+        clickEvent : startGame,
+
+        text : ["もう一度遊ぶ"],
+        textSizeHS : [0.045],
+        textLineHeightVS : [],
+        textWeight : ["bold"],
+        
+        background : true,
+        backFillStyle : "#66bb66",
+        backFillStyleMouseIn : "#449944",
+        textFillStyle : "#ffffff",
+        shadowFillStyle : "#aaaaaa",
+        shadowBlurHS : 0.01
+    }
+
+    label_box["jump_title"] = {
+        canvasType : "game",
+        xHS : 0.65,
+        yVS : 0.71,
+        widthHS : 0.2,
+        heightVS : 0.08,
+        marginHS : 0.0,
+        textAlign : "center",
+        textBaseLine : "middle",
+        textFont : "M PLUS Rounded 1c",
+        mouseIn : false,
+        clickEvent : function(){
+            screen.game_onprocess = false
+            setInitialSceneLabel()
+        } ,
+
+        text : ["タイトルに戻る"],
+        textSizeHS : [0.025],
+        textLineHeightVS : [],
+        textWeight : ["bold"],
+
+        background : true,
+        backFillStyle : "#888888",
+        backFillStyleMouseIn : "#555555",
+        textFillStyle : "#ffffff",
+        shadowFillStyle : "#aaaaaa",
+        shadowBlurHS : 0.01
+    }
+}
+
+function setFinishLabel(){
+    label_box["button_pause"] = undefined
+
+    label_box["finish"] = {
+        canvasType : "game",
+        xHS : 0.0,
+        yVS : 0.0,
+        widthHS : 1.0,
+        heightVS : 1.0,
+        marginHS : 0.0,
+        textAlign : "center",
+        textBaseLine : "middle",
+        textFont : "M PLUS Rounded 1c",
+        clickEvent : undefined,
+
+        text : ["ゲーム終了", game.netRest == 0 ? "網がなくなりました":"残り時間が0になりました"],
+        textSizeHS : [0.07, 0.05],
+        textLineHeightVS : [0.03],
+        textWeight : ["", ""],
+
+        background : true,
+        backFillStyle : "#444444e0",
+        backFillStyleMouseIn : "#444444e0",
+        textFillStyle : "#ffffff",
+        shadowBlurHS : 0
+    }
+}
+
 function setPauseLabel(){
 
     label_box["button_pause"].clickEvent = undefined
 
-    label_box["credit_back"] = {
+    label_box["pause"] = {
         canvasType : "root",
         xHS : 0.0,
         yVS : 0.0,

@@ -115,6 +115,7 @@ function drawLabel(type) {
     for(key in label_box){
 
         label = label_box[key]
+        if(label == undefined) continue
         if(label.canvasType != type) continue
 
         var cv, ctx
@@ -124,6 +125,9 @@ function drawLabel(type) {
         } else if(label.canvasType == "board"){
             cv = screen.board_cv
             ctx = screen.board_ctx
+        } else if(label.canvasType == "game"){
+            cv = screen.game_cv
+            ctx = screen.game_ctx
         } else {
             continue
         }
@@ -142,7 +146,6 @@ function drawLabel(type) {
                 ctx.shadowOffsetY = 0
                 ctx.shadowBlur = label.shadowBlurHS * cv.width
             }
-    
     
             ctx.fillRect(
                 rect_x,
@@ -208,21 +211,25 @@ function drawLabel(type) {
 
 // 全体の描画処理
 function draw() {
+    screen.root_ctx.clearRect(0, 0, screen.root_cv.width, screen.root_cv.height)
+    drawImageOnRect(screen.root_ctx, "resources/test_background.png", 0, 0, screen.root_cv.width, screen.root_cv.height, false, false, true)
 
-    screen.game_ctx.clearRect(0, 0, screen.game_cv.width, screen.game_cv.height)
-    screen.board_ctx.clearRect(0, 0, screen.board_cv.width, screen.board_cv.height)
+    if(screen.game_onprocess == true) {
 
-    drawImageOnRect(screen.game_ctx, "resources/test_background.png", 0, 0, screen.game_cv.width, screen.game_cv.height, false, false, true)
-    drawImageOnRect(screen.board_ctx, "resources/test_board.png", 0, 0, screen.board_cv.width, screen.board_cv.height, false, false, true)
-    
-    if(game.pause == false){
-        drawBall()
-        drawPaddle()
-        drawBlocks()
+        drawImageOnRect(screen.board_ctx, "resources/test_board.png", 0, 0, screen.board_cv.width, screen.board_cv.height, false, false, true)
+        drawLabel("board")
+        screen.root_ctx.drawImage(screen.board_cv, screen.game_cv.width, 0)
+
+        screen.game_ctx.clearRect(0, 0, screen.game_cv.width, screen.game_cv.height)
+        if(game.pause == false){
+            drawBall()
+            drawPaddle()
+            drawBlocks()
+        }
+        drawLabel("game")
+        screen.root_ctx.drawImage(screen.game_cv, 0, 0)
+        
     }
 
-    screen.root_ctx.drawImage(screen.game_cv, 0, 0)
-    drawLabel("board")
-    screen.root_ctx.drawImage(screen.board_cv, screen.game_cv.width, 0)
     drawLabel("root")
 }

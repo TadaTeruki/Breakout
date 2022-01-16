@@ -24,6 +24,7 @@ function generate_block(from_right = false){
         widthHS  : widthHS,
         heightVS : heightVS,
         available: true,
+        score : 100,
         ballPiercing : true,
         animationImageSrc : ["resources/fishA.png"],
         animationIntervalSec : 0.01,
@@ -42,6 +43,7 @@ function generate_block(from_right = false){
             setTimeout(function(){
                 generate_block(Math.random() < 0.5)
             }, 1000)
+            game.score += this.score
         },
         passFunc : function(){
             this.available = false

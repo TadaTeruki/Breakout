@@ -26,7 +26,7 @@ function updateLabelMouseIO(mouseXHS, mouseYVS){
     
     for(key in label_box){
         var label = label_box[key]
-
+        if(label == undefined)continue
         if(label.clickEvent == undefined)continue
 
         var fMouseXHS = mouseXHS
@@ -34,6 +34,9 @@ function updateLabelMouseIO(mouseXHS, mouseYVS){
 
         if(label.canvasType == "board"){
             fMouseXHS = (mouseXHS-screen.game_cv.width/screen.root_cv.width)/(screen.board_cv.width/screen.root_cv.width)
+        }
+        if(label.canvasType == "game"){
+            fMouseXHS = mouseXHS/(screen.game_cv.width/screen.root_cv.width)
         }
 
         var previousMouseIn = label_box[key].mouseIn
@@ -84,4 +87,16 @@ function mouseUpHandler(e) {
             label.clickEvent()
         }
     }
+
+    if(game.pause == false && screen.game_onprocess == true && mouseXHS <= screen.game_cv.width/screen.root_cv.width) {
+        game.paddleXHS = mouseXHS/screen.game_cv.width*screen.root_cv.width - game.paddleWidthHS*0.5
+        if(game.ballReleased == false){
+            game.ballXHS = game.paddleXHS
+            game.ballReleased = true
+        }
+    }
+
+}
+
+function mouseDownHandler(e) {
 }
