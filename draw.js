@@ -35,8 +35,6 @@ function drawImageOnRect(ctx, image_src, rect_x, rect_y, rect_width, rect_height
         image_stock[image_src].onload = function(){
             game.imageLoadProcess--
             process()
-            //if(redraw_when_loaded)draw()
-            
         }
 
     } else {
@@ -136,22 +134,27 @@ function drawLabel(type) {
         var rect_width = label.widthHS * cv.width - margin*2
         var rect_height = label.heightVS * cv.height - margin*2
 
+        if(label.background == true){
+            ctx.fillStyle = label.mouseIn ? label.backFillStyleMouseIn:label.backFillStyle
+            if(label.shadowBlurHS != 0){
+                ctx.shadowColor = label.shadowFillStyle
+                ctx.shadowOffsetX = 0
+                ctx.shadowOffsetY = 0
+                ctx.shadowBlur = label.shadowBlurHS * cv.width
+            }
+    
+    
+            ctx.fillRect(
+                rect_x,
+                rect_y,
+                rect_width,
+                rect_height
+            )
+            ctx.closePath()
+    
+            ctx.shadowBlur = 0
+        }
 
-        ctx.fillStyle = label.mouseIn ? label.backFillStyleMouseIn:label.backFillStyle
-        ctx.shadowColor = label.shadowFillStyle
-        ctx.shadowOffsetX = 0
-        ctx.shadowOffsetY = 0
-        ctx.shadowBlur = label.shadowBlurHS * cv.width
-
-        ctx.fillRect(
-            rect_x,
-            rect_y,
-            rect_width,
-            rect_height
-        )
-        ctx.closePath()
-
-        ctx.shadowBlur = 0
 
         if(label.text.length != 0){
             var text_x = rect_x
@@ -210,7 +213,7 @@ function draw() {
     screen.board_ctx.clearRect(0, 0, screen.board_cv.width, screen.board_cv.height)
 
     drawImageOnRect(screen.game_ctx, "resources/test_background.png", 0, 0, screen.game_cv.width, screen.game_cv.height, false, false, true)
-    drawImageOnRect(screen.board_ctx, "resources/test_background.png", 0, 0, screen.board_cv.width, screen.board_cv.height, false, false, true)
+    drawImageOnRect(screen.board_ctx, "resources/test_board.png", 0, 0, screen.board_cv.width, screen.board_cv.height, false, false, true)
     
     if(game.pause == false){
         drawBall()
@@ -219,7 +222,7 @@ function draw() {
     }
 
     screen.root_ctx.drawImage(screen.game_cv, 0, 0)
+    drawLabel("board")
     screen.root_ctx.drawImage(screen.board_cv, screen.game_cv.width, 0)
-
     drawLabel("root")
 }

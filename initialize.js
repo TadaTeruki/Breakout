@@ -3,8 +3,8 @@ function set_screen(){
 
     screen.root_cv = document.getElementById("canvas_src")
     screen.root_ctx = screen.root_cv.getContext("2d")
-    screen.root_cv_width_aspect = 9
-    screen.root_cv_height_aspect = 7
+    screen.root_cv_width_aspect = 1
+    screen.root_cv_height_aspect = 1
     screen.root_cv_margin_scale = 0.0
     screen.root_cv_min_width = 100
     screen.root_cv_min_height = screen.root_cv_min_width/screen.root_cv_width_aspect*screen.root_cv_height_aspect
@@ -54,6 +54,9 @@ function set_game(){
     game.max_time = 2*2*2*2*3*3*5*7*11*13
     game.pause = true
     game.imageLoadProcess = 0
+
+    game.readyCount = 0
+    game.maxReadyCount = 3
     
     set_ball()
     set_blocks()

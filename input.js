@@ -29,10 +29,17 @@ function updateLabelMouseIO(mouseXHS, mouseYVS){
 
         if(label.clickEvent == undefined)continue
 
+        var fMouseXHS = mouseXHS
+        var fMouseYVS = mouseYVS
+
+        if(label.canvasType == "board"){
+            fMouseXHS = (mouseXHS-screen.game_cv.width/screen.root_cv.width)/(screen.board_cv.width/screen.root_cv.width)
+        }
+
         var previousMouseIn = label_box[key].mouseIn
 
-        if(mouseXHS >= label.xHS && mouseXHS <= label.xHS + label.widthHS &&
-           mouseYVS >= label.yVS && mouseYVS <= label.yVS + label.heightVS) {
+        if(fMouseXHS >= label.xHS && fMouseXHS <= label.xHS + label.widthHS &&
+           fMouseYVS >= label.yVS && fMouseYVS <= label.yVS + label.heightVS) {
             label_box[key].mouseIn = true
         } else {
             label_box[key].mouseIn = false
@@ -60,7 +67,7 @@ function mouseOutHandler(e) {
 }
 
 function mouseUpHandler(e) {
-    
+
     var mouseXHS = (e.x - screen.root_cv.positionX)/screen.root_cv.width
     var mouseYVS = (e.y - screen.root_cv.positionY)/screen.root_cv.height
 
