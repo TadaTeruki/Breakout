@@ -7,6 +7,8 @@ function lostBall(){
     }
 
     set_ball()
+    
+    game.lastTimeLost = game.time
 }
 
 function startGame(){

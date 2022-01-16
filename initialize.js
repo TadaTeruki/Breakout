@@ -20,13 +20,14 @@ function set_screen(){
     screen.resize_scale = 1.0
 
     screen.game_onprocess = false
+    screen.touching = false
 }
 
 function set_ball(){
     game.ballXHS = game.paddleXHS + game.paddleWidthHS*0.5
     game.ballYVS = game.paddleYVS
     game.ballAngle = Math.PI*0.2
-    game.ballVelocityHS = 0.008
+    //game.ballVelocityHS = 0.006
     game.ballReleased = false
 }
 
@@ -34,9 +35,12 @@ function set_game(){
 
     game.collisionFillStyle = "rgba(200,200,200,0)"
 
-    game.ballRadiusHS = 0.02
-    game.ballImageSrc = ["resources/netA.png"]
+    game.ballRadiusHS = 0.03
+    game.ballImageSrc = ["resources/netB.png"]
     game.ballAnimationIntervalSec = 0.3
+    game.ballMinVelocityHS = 0.005
+    game.ballMaxVelocityHS = 0.01
+
 
     game.paddleWidthHS = 0.15
     game.paddleHeightVS = 0.02
@@ -54,12 +58,15 @@ function set_game(){
     game.leftPressed = false
     game.time = 0
     game.max_time = 2*2*2*2*3*3*5*7*11*13
+    game.lastTimeLost = 0
     
     game.pause = true
     game.imageLoadProcess = 0
 
-    game.timeRest = 20/screen.updateIntervalSec
+    game.timeRest = 60/screen.updateIntervalSec
     game.netRest = 3
+    game.netRestScore = 600
+    game.fishScore = 100
     
     game.maxReadyCount = 3
     game.readyCount = game.maxReadyCount
@@ -105,7 +112,7 @@ function set_blocks(){
     var enemyWidthHS = 0.1
     var enemyXHS = function(){ return game.paddleXHS + (game.paddleWidthHS-enemyWidthHS)/2 }
 
-    game.blocks.push({
+    make_new_block({
             
         xHS : enemyXHS(),
         yVS : 0.42,
@@ -113,8 +120,8 @@ function set_blocks(){
         heightVS : 0.06,
         available: true,
         ballPiercing : false,
-        animationImageSrc : ["resources/uniA.png"],
-        animationIntervalSec : 0.01,
+        animationImageSrc : ["resources/uniA1.png", "resources/uniA2.png", "resources/uniA3.png", "resources/uniA4.png", "resources/uniA3.png", "resources/uniA2.png"],
+        animationIntervalSec : 0.1,
         animationXFlip : false,
         seed : new Array(10).fill(Math.random()),
         dxFuncHS : function(){

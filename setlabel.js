@@ -1,4 +1,23 @@
 
+function startReadyCount(){
+    setReadyCount()
+}
+
+function updateGameSceneLabel(){
+    if(label_box["restInfo"] != undefined){
+        label_box["restInfo"].text[1] = Math.ceil(game.timeRest*screen.updateIntervalSec).toString()
+        label_box["restInfo"].text[3] = game.netRest.toString()
+    }
+    if(label_box["score"] != undefined){
+        label_box["score"].text[1] = game.score.toString()
+    }
+
+}
+
+function getOverallScore(){
+    return game.score + game.netRest * game.netRestScore
+}
+
 function setInitialSceneLabel(){
 
     label_box = {}
@@ -129,21 +148,6 @@ function setReadyCount(){
     }, 1000)
 }
 
-function startReadyCount(){
-    setReadyCount()
-}
-
-function updateGameSceneLabel(){
-    if(label_box["restInfo"] != undefined){
-        label_box["restInfo"].text[1] = Math.ceil(game.timeRest*screen.updateIntervalSec).toString()
-        label_box["restInfo"].text[3] = game.netRest.toString()
-    }
-    if(label_box["score"] != undefined){
-        label_box["score"].text[1] = game.score.toString()
-    }
-
-}
-
 function setGameSceneLabel(){
     label_box = {}
 
@@ -253,6 +257,8 @@ function setGameSceneLabel(){
 function setResultLabel(){
     label_box["finish"] = undefined
 
+
+
     label_box["result_back"] = {
         canvasType : "game",
         xHS : 0.0,
@@ -276,7 +282,7 @@ function setResultLabel(){
     label_box["button_restart"] = {
         canvasType : "game",
         xHS : 0.2,
-        yVS : 0.7,
+        yVS : 0.79,
         widthHS : 0.4,
         heightVS : 0.1,
         marginHS : 0.0,
@@ -302,7 +308,7 @@ function setResultLabel(){
     label_box["jump_title"] = {
         canvasType : "game",
         xHS : 0.65,
-        yVS : 0.71,
+        yVS : 0.8,
         widthHS : 0.2,
         heightVS : 0.08,
         marginHS : 0.0,
@@ -326,6 +332,77 @@ function setResultLabel(){
         textFillStyle : "#ffffff",
         shadowFillStyle : "#aaaaaa",
         shadowBlurHS : 0.01
+    }
+
+    label_box["result_title"] = {
+        canvasType : "game",
+        xHS : 0.0,
+        yVS : 0.1,
+        widthHS : 1.0,
+        heightVS : 0.08,
+        marginHS : 0.0,
+        textAlign : "center",
+        textBaseLine : "middle",
+        textFont : "M PLUS Rounded 1c",
+        clickEvent : undefined,
+
+        text : ["今回のスコア"],
+        textSizeHS : [0.08],
+        textLineHeightVS : [],
+        textWeight : ["bold"],
+        
+        background : false,
+        textFillStyle : "#ffffff",
+        shadowBlurHS : 0
+    }
+
+    label_box["result_score_info"] = {
+        canvasType : "game",
+        xHS : 0.45,
+        yVS : 0.28,
+        widthHS : 0.5,
+        heightVS : 0.3,
+        marginHS : 0.0,
+        textAlign : "center",
+        textBaseLine : "top",
+        textFont : "M PLUS Rounded 1c",
+        clickEvent : undefined,
+
+        text : ["捕獲した魚 : " + Math.round(game.score/game.fishScore).toString()+"匹 x " + game.fishScore.toString(),
+                "+",
+                "残った網数 : " + game.netRest.toString() + "張 x " + game.netRestScore.toString(),
+                "⇓",
+                getOverallScore().toString(),
+                "~~~~~~~~~~~~~~~~~~~~~~~~"],
+        textSizeHS : [0.05, 0.05, 0.05, 0.05, 0.1, 0.02],
+        textLineHeightVS : [0.04, 0.04, 0.04, 0.04, 0.01],
+        textWeight : ["", "", "", "", "", "bold"],
+        
+        background : false,
+        textFillStyle : "#ffffff",
+        shadowBlurHS : 0
+    }
+
+    label_box["result_score_idc"] = {
+        canvasType : "game",
+        xHS : 0.25,
+        yVS : 0.6,
+        widthHS : 0.1,
+        heightVS : 0.1,
+        marginHS : 0.0,
+        textAlign : "center",
+        textBaseLine : "middle",
+        textFont : "M PLUS Rounded 1c",
+        clickEvent : undefined,
+
+        text : ["総合スコア"],
+        textSizeHS : [0.05],
+        textLineHeightVS : [],
+        textWeight : [""],
+        
+        background : false,
+        textFillStyle : "#ffffff",
+        shadowBlurHS : 0,
     }
 }
 

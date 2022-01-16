@@ -29,7 +29,8 @@ function moveBall(){
         for(var j = 0; j < AngleList.length; j++){
 
             var angle = NextBallAngle + AngleList[j]
-            var velocity = game.ballVelocityHS*CollisionDistanceScale
+            var timeProp = (game.time-game.lastTimeLost)/(game.time+game.timeRest-game.lastTimeLost)
+            var velocity = ((1.0-timeProp)*game.ballMinVelocityHS + timeProp*game.ballMaxVelocityHS) * CollisionDistanceScale
             var ballXHS = game.ballXHS + Math.cos(angle)*velocity
             var ballYVS = game.ballYVS - Math.sin(angle)*velocity
             var accepted = true

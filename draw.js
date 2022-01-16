@@ -22,10 +22,7 @@ function drawImageOnRect(ctx, image_src, rect_x, rect_y, rect_width, rect_height
         ctx.drawImage(image_stock[image_src],
             xscale*rect_x+rect_width*xfix+(rect_width-display_width)/2, yscale*rect_y+(rect_height-display_height)/2, display_width, display_height
         )
-
         ctx.restore()
-
-        
     }
     
     if(image_stock[image_src] == undefined){
@@ -211,8 +208,8 @@ function drawLabel(type) {
 
 // 全体の描画処理
 function draw() {
-    screen.root_ctx.clearRect(0, 0, screen.root_cv.width, screen.root_cv.height)
-    drawImageOnRect(screen.root_ctx, "resources/test_background.png", 0, 0, screen.root_cv.width, screen.root_cv.height, false, false, true)
+    //screen.root_ctx.clearRect(0, 0, screen.root_cv.width, screen.root_cv.height)
+    
 
     if(screen.game_onprocess == true) {
 
@@ -220,7 +217,8 @@ function draw() {
         drawLabel("board")
         screen.root_ctx.drawImage(screen.board_cv, screen.game_cv.width, 0)
 
-        screen.game_ctx.clearRect(0, 0, screen.game_cv.width, screen.game_cv.height)
+        //screen.game_ctx.clearRect(0, 0, screen.game_cv.width, screen.game_cv.height)
+        drawImageOnRect(screen.game_ctx, "resources/background.png", 0, 0, screen.game_cv.width, screen.game_cv.height, false, false, true)
         if(game.pause == false){
             drawBall()
             drawPaddle()
@@ -229,6 +227,8 @@ function draw() {
         drawLabel("game")
         screen.root_ctx.drawImage(screen.game_cv, 0, 0)
         
+    } else {
+        drawImageOnRect(screen.root_ctx, "resources/background.png", 0, 0, screen.root_cv.width, screen.root_cv.height, false, false, true)
     }
 
     drawLabel("root")

@@ -54,12 +54,20 @@ function updateLabelMouseIO(mouseXHS, mouseYVS){
     return info_changed
 }
 
+function pointerIsInGame(mouseXHS){
+    return mouseXHS <= screen.game_cv.width/screen.root_cv.width
+}
+
 function motionHandler(e) {
     var mouseXHS = (e.x - screen.root_cv.positionX)/screen.root_cv.width
     var mouseYVS = (e.y - screen.root_cv.positionY)/screen.root_cv.height
 
     if(updateLabelMouseIO(mouseXHS, mouseYVS)){
         draw()
+    }
+
+    if(screen.touching == true && game.pause == false && screen.game_onprocess == true && pointerIsInGame(mouseXHS)) {
+        game.paddleXHS = mouseXHS/screen.game_cv.width*screen.root_cv.width - game.paddleWidthHS*0.5
     }
 }
 
@@ -88,15 +96,15 @@ function mouseUpHandler(e) {
         }
     }
 
-    if(game.pause == false && screen.game_onprocess == true && mouseXHS <= screen.game_cv.width/screen.root_cv.width) {
-        game.paddleXHS = mouseXHS/screen.game_cv.width*screen.root_cv.width - game.paddleWidthHS*0.5
-        if(game.ballReleased == false){
-            game.ballXHS = game.paddleXHS
-            game.ballReleased = true
-        }
+    if(screen.touching == true && game.pause == false && screen.game_onprocess == true && pointerIsInGame(mouseXHS) && game.ballReleased == false){
+        game.ballXHS = game.paddleXHS + game.paddleWidthHS * 0.5
+        game.ballReleased = true
     }
+
+    screen.touching = false
 
 }
 
 function mouseDownHandler(e) {
+    screen.touching = true
 }
