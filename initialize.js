@@ -19,15 +19,15 @@ function set_screen(){
 
     screen.resize_scale = 1.0
 
+    screen.english = false
+
     screen.game_onprocess = false
-    screen.touching = false
 }
 
 function set_ball(){
     game.ballXHS = game.paddleXHS + game.paddleWidthHS*0.5
     game.ballYVS = game.paddleYVS
     game.ballAngle = Math.PI*0.2
-    //game.ballVelocityHS = 0.006
     game.ballReleased = false
 }
 
@@ -38,7 +38,7 @@ function set_game(){
     game.ballRadiusHS = 0.03
     game.ballImageSrc = ["resources/netB.png"]
     game.ballAnimationIntervalSec = 0.3
-    game.ballMinVelocityHS = 0.005
+    game.ballMinVelocityHS = 0.008
     game.ballMaxVelocityHS = 0.01
 
 
@@ -67,6 +67,8 @@ function set_game(){
     game.netRest = 3
     game.netRestScore = 600
     game.fishScore = 100
+    game.pauseEndTimeCount = 0
+    game.resultLoop = 50
     
     game.maxReadyCount = 3
     game.readyCount = game.maxReadyCount
@@ -139,7 +141,7 @@ function set_blocks(){
             
         }
     })
-    for(var i = 0; i < 10; i++) generate_block(i%2 == 0)
+    for(var i = 0; i < 15; i++) generate_block(i%2 == 0)
     
 }
 

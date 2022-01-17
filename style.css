@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c&family=Yuji+Mai&display=swap');
 
 * {
     padding: 0;
@@ -6,7 +6,7 @@
 }
 
 canvas {
-    background:#eee;
+    background: #eee;
     display:block;
     margin:0 auto;
 }

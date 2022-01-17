@@ -151,12 +151,21 @@ function drawLabel(type) {
                 rect_height
             )
             ctx.closePath()
-    
+            
             ctx.shadowBlur = 0
+            
         }
 
 
         if(label.text.length != 0){
+
+            if(label.textShadowBlurHS != undefined){
+                ctx.shadowColor = label.textShadowFillStyle
+                ctx.shadowOffsetX = 0
+                ctx.shadowOffsetY = 0
+                ctx.shadowBlur = label.textShadowBlurHS * cv.width
+            }
+
             var text_x = rect_x
             if(label.textAlign == "left") text_x = rect_x
             if(label.textAlign == "center") text_x = rect_x + rect_width/2
@@ -198,7 +207,10 @@ function drawLabel(type) {
                 }
                 
             }
+            ctx.shadowBlur = 0
         }
+
+        
         
 
     }
@@ -208,16 +220,12 @@ function drawLabel(type) {
 
 // 全体の描画処理
 function draw() {
-    //screen.root_ctx.clearRect(0, 0, screen.root_cv.width, screen.root_cv.height)
     
-
     if(screen.game_onprocess == true) {
 
-        drawImageOnRect(screen.board_ctx, "resources/test_board.png", 0, 0, screen.board_cv.width, screen.board_cv.height, false, false, true)
         drawLabel("board")
         screen.root_ctx.drawImage(screen.board_cv, screen.game_cv.width, 0)
 
-        //screen.game_ctx.clearRect(0, 0, screen.game_cv.width, screen.game_cv.height)
         drawImageOnRect(screen.game_ctx, "resources/background.png", 0, 0, screen.game_cv.width, screen.game_cv.height, false, false, true)
         if(game.pause == false){
             drawBall()

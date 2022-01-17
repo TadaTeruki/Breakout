@@ -47,6 +47,8 @@ function loop(){
         if(game.timeRest <= 0){
             finishGame()
         }
+
+        game.pauseEndTimeCount = Math.max(game.pauseEndTimeCount-1, 0)
         
         if(game.rightPressed && game.paddleXHS < 1.0-game.paddleWidthHS) {
             game.paddleXHS += game.paddleSpeedHS

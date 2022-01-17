@@ -66,9 +66,6 @@ function motionHandler(e) {
         draw()
     }
 
-    if(screen.touching == true && game.pause == false && screen.game_onprocess == true && pointerIsInGame(mouseXHS)) {
-        game.paddleXHS = mouseXHS/screen.game_cv.width*screen.root_cv.width - game.paddleWidthHS*0.5
-    }
 }
 
 function mouseOutHandler(e) {
@@ -96,12 +93,13 @@ function mouseUpHandler(e) {
         }
     }
 
-    if(screen.touching == true && game.pause == false && screen.game_onprocess == true && pointerIsInGame(mouseXHS) && game.ballReleased == false){
-        game.ballXHS = game.paddleXHS + game.paddleWidthHS * 0.5
-        game.ballReleased = true
+    if(game.pauseEndTimeCount == 0 && game.pause == false && screen.game_onprocess == true && pointerIsInGame(mouseXHS)) {
+        game.paddleXHS = mouseXHS/screen.game_cv.width*screen.root_cv.width - game.paddleWidthHS*0.5
+        if(game.ballReleased == false){
+            game.ballXHS = game.paddleXHS + game.paddleWidthHS * 0.5
+            game.ballReleased = true
+        }
     }
-
-    screen.touching = false
 
 }
 
