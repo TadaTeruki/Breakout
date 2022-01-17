@@ -20,8 +20,12 @@ function set_screen(){
     screen.resize_scale = 1.0
 
     screen.english = false
-
     screen.game_onprocess = false
+
+    screen.audio_catch   = new Audio("resources/catch.mp3");
+    screen.audio_injured = new Audio("resources/injured.mp3");
+    screen.audio_over    = new Audio("resources/over.mp3");
+    screen.audio_game    = new Audio("resources/game.mp3");
 }
 
 function set_ball(){
@@ -47,7 +51,7 @@ function set_game(){
     game.paddleXHS = 0.5 - game.paddleWidthHS*0.5
     game.paddleYVS = 0.9
     game.paddleSpeedHS = 0.01
-    game.paddleImageSrc = ["resources/test_fish0.png"]
+    game.paddleImageSrc = ["resources/paddle.png"]
     game.paddleAnimationIntervalSec = 0.01
 
     game.blocks = []

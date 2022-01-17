@@ -509,9 +509,6 @@ function setResultLabel(){
     }
 
     setTimeout(countEffect, 500)
-
-
-
 }
 
 function setFinishLabel(){
@@ -530,7 +527,7 @@ function setFinishLabel(){
         clickEvent : undefined,
 
         text : screen.english ?
-            ["Finished", game.netRest == 0 ? "No fishing net left":"Time over"]:
+            ["Finish", game.netRest == 0 ? "No fishing net left":"Time over"]:
             ["ゲーム終了", game.netRest == 0 ? "網がなくなりました":"残り時間が0になりました"],
         textSizeHS : [0.07, 0.05],
         textLineHeightVS : [0.03],
@@ -625,6 +622,7 @@ function setCreditLabel(){
                 "ぺるき",
                 "   企画・コーディング",
                 "       ゲームデザイン(支援)",
+                "   楽曲 : 甘茶の音楽工房"
         ],
         textSizeHS : [0.037,
                       0.032,
@@ -635,6 +633,7 @@ function setCreditLabel(){
                       0.025,
                       0.032,
                       0.03,
+                      0.025,
                       0.025],
         textLineHeightVS : [0.04,
                             0.015,
@@ -644,7 +643,8 @@ function setCreditLabel(){
                             0.015,
                             0.04,
                             0.015,
-                            0.015],
+                            0.015,
+                            0.05],
         textWeight : ["bold",
                       "",
                       "",
