@@ -18,9 +18,35 @@ function getOverallScore(){
     return game.score + game.netRest * game.netRestScore
 }
 
-function setInitialSceneLabel(){
+function setLoadingSceneLabel(){
+    label_box = {}
+    label_box["loading"] = {
+        canvasType : "root",
+        xHS : 0.0,
+        yVS : 0.0,
+        widthHS : 1.0,
+        heightVS : 1.0,
+        marginHS : 0.0,
+        textAlign : "center",
+        textBaseLine : "middle",
+        textFont : "M PLUS Rounded 1c",
+        clickEvent : undefined,
 
-    
+        text : ["Loading..."],
+        textSizeHS : [0.05],
+        textLineHeightVS : [],
+        textWeight : ["bold"],
+
+        background : true,
+        backFillStyle : "#333333",
+        textFillStyle : "#ffffff",
+        shadowBlurHS : 0.0,
+        textShadowFillStyle : "#ffffffaa",
+        textShadowBlurHS : 0.01,
+    }
+}
+
+function setInitialSceneLabel(){
 
     label_box = {}
 
@@ -71,7 +97,7 @@ function setInitialSceneLabel(){
     label_box["role"] = {
         canvasType : "root",
         xHS : 0.0,
-        yVS : 0.3,
+        yVS : 0.29,
         widthHS : 1.0,
         heightVS : 0.775,
         marginHS : 0.1,
@@ -81,11 +107,11 @@ function setInitialSceneLabel(){
         clickEvent : undefined,
 
         text : screen.english ? 
-                ["Catch as many fish as you can!", "The time limit is 60 seconds.🐟 ", "3 fishing nets will be stocked.", "Be careful not to lose them.🐠 "] :
-                ["網で魚を多く捕獲しよう", "制限時間は1分", "網を底に落とさないように気をつけよう", "ウニに当たらないようにも気をつけよう"],
-        textSizeHS : [0.03, 0.03, 0.03, 0.03],
-        textLineHeightVS : [0.02, 0.05, 0.02],
-        textWeight : ["", "", "", ""],
+                ["Catch as many fish as you can!", "The time limit is 60 seconds.🐟 ", "3 fishing nets will be stocked.", "Be careful not to lose them.🐠 ", "Pay attention to volume"] :
+                ["網で魚を多く捕獲しよう", "制限時間は1分", "網を底に落とさないように気をつけよう", "ウニに当たらないようにも気をつけよう", "※音が出ます"],
+        textSizeHS : [0.03, 0.03, 0.03, 0.03, 0.025],
+        textLineHeightVS : [0.02, 0.05, 0.02, 0.02],
+        textWeight : ["", "", "", "", ""],
         
         background : false,
         textFillStyle : "#333333",
@@ -182,7 +208,8 @@ function setReadyCount(){
         if(game.readyCount <= 0){
             if(label_box["ready"] != undefined) label_box["ready"].text[1] = "START!"
             setTimeout(function(){ label_box["ready"].text = [] }, 1000)
-
+            screen.audio_game.currentTime = 0
+            screen.audio_game.play()
             game.pause = false
         } else {
             setReadyCount()

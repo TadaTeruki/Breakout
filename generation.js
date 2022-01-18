@@ -1,17 +1,6 @@
 
 function make_new_block(obj){
 
-    for(var i = 0 ; i < obj.animationImageSrc.length; i++){
-        var image_src = obj.animationImageSrc[i]
-        if(image_stock[image_src] != undefined) continue
-        game.imageLoadProcess++
-        image_stock[image_src] = new Image()
-        image_stock[image_src].src = image_src
-        image_stock[image_src].onload = function(){
-            game.imageLoadProcess--
-        }
-    }
-
     for(var i = 0; i < game.blocks.length; i++) {
         if(game.blocks[i].available == false){
             game.blocks[i] = obj

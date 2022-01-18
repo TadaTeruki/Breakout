@@ -3,53 +3,52 @@ function getAnimID(interval_sec, image_num){
     return Math.floor(game.time/(interval_sec/screen.updateIntervalSec))%image_num
 }
 
-function drawImageOnRect(ctx, image_src, rect_x, rect_y, rect_width, rect_height, flip_x = false, flip_y = false, rotate = 0) {
+function loadImage(){
     
-    process = function(){
-        
-        var image_width  = image_stock[image_src].width
-        var image_height = image_stock[image_src].height
-
-        var display_width  = Math.max(rect_width,  image_width/image_height*rect_height)
-        var display_height = Math.max(rect_height, image_height/image_width*rect_width)
-
-        ctx.save()
-
-        var xscale = flip_x ? -1:1
-        var yscale = flip_y ? -1:1
-        var xfix = flip_x ? -1:0
-        ctx.scale(xscale, yscale)
-
-        var dx = xscale*rect_x+rect_width*xfix+(rect_width-display_width)/2
-        var dy = yscale*rect_y+(rect_height-display_height)/2
-
-        ctx.translate(dx + display_width/2, dy + display_height/2);
-
-        if(rotate != 0){
-            
-            ctx.rotate(rotate)
-            //image_stock[image_src].style.transform = "rotate(" + rotate.toString() + ")"
-        }
-
-        ctx.drawImage(image_stock[image_src],
-            -display_width/2, -display_height/2, display_width, display_height
-        )
-        ctx.restore()
-    }
-    
-    if(image_stock[image_src] == undefined){
-        game.imageLoadProcess++
+    for (var i = 0; i < arguments.length; i++) {
+        screen.imageLoadProcess++
+        var image_src = loadImage.arguments[i]
         image_stock[image_src] = new Image()
         image_stock[image_src].src = image_src
         image_stock[image_src].onload = function(){
-            game.imageLoadProcess--
-            process()
+            screen.imageLoadProcess--
         }
-
-    } else {
-        process()
     }
 
+}
+
+function drawImageOnRect(ctx, image_src, rect_x, rect_y, rect_width, rect_height, flip_x = false, flip_y = false, rotate = 0) {
+    
+    if(image_stock[image_src] == undefined) return
+        
+    var image_width  = image_stock[image_src].width
+    var image_height = image_stock[image_src].height
+
+    var display_width  = Math.max(rect_width,  image_width/image_height*rect_height)
+    var display_height = Math.max(rect_height, image_height/image_width*rect_width)
+
+    ctx.save()
+
+    var xscale = flip_x ? -1:1
+    var yscale = flip_y ? -1:1
+    var xfix = flip_x ? -1:0
+    ctx.scale(xscale, yscale)
+
+    var dx = xscale*rect_x+rect_width*xfix+(rect_width-display_width)/2
+    var dy = yscale*rect_y+(rect_height-display_height)/2
+
+    ctx.translate(dx + display_width/2, dy + display_height/2);
+
+    if(rotate != 0){
+        
+        ctx.rotate(rotate)
+    }
+
+    ctx.drawImage(image_stock[image_src],
+        -display_width/2, -display_height/2, display_width, display_height
+    )
+    ctx.restore()
+    
 
 }
 

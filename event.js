@@ -24,8 +24,10 @@ function startGame(){
     draw()
     setGameSceneLabel()
     startReadyCount()
-    screen.audio_game.currentTime = 0
-    screen.audio_game.play()
+    /*
+
+    */
+    screen.audio_count.play()
 }
 
 function finishGame(){
