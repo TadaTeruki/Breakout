@@ -24,7 +24,7 @@ function set_screen(){
 
     screen.audio_catch   = new Audio("resources/catch.mp3")
     screen.audio_injured = new Audio("resources/injured.mp3")
-    screen.audio_over    = new Audio("resources/over.mp3")
+    screen.audio_over    = new Audio("resources/over.wav")
     screen.audio_game    = new Audio("resources/game.mp3")
     screen.audio_catch.preload = "auto"
     screen.audio_injured.preload = "auto"
