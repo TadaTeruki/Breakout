@@ -15,6 +15,7 @@ function main(){
     screen.game_cv.start_width  = screen.game_cv.width
     screen.game_cv.start_height = screen.game_cv.height
     screen.updateIntervalSec = 0.01
+    screen.drawInterval = 2.5
     
     // イベントハンドラの追加
     document.addEventListener("keydown", keyDownHandler, false)
@@ -128,11 +129,13 @@ function loop(){
         updateGameSceneLabel()
 
         setTimeout(loop, 1000 * screen.updateIntervalSec)
+        if(Math.floor(game.time/screen.drawInterval) != Math.floor((game.time-1)/screen.drawInterval)){
+            draw()
+        }
     } else {
         setTimeout(loop, 1000)
+        draw()
     }
-
-    draw()
 }
 
 
