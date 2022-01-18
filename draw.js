@@ -3,7 +3,7 @@ function getAnimID(interval_sec, image_num){
     return Math.floor(game.time/(interval_sec/screen.updateIntervalSec))%image_num
 }
 
-function drawImageOnRect(ctx, image_src, rect_x, rect_y, rect_width, rect_height, flip_x = false, flip_y = false, redraw_when_loaded = false) {
+function drawImageOnRect(ctx, image_src, rect_x, rect_y, rect_width, rect_height, flip_x = false, flip_y = false, rotate = 0) {
     
     process = function(){
         
@@ -19,8 +19,20 @@ function drawImageOnRect(ctx, image_src, rect_x, rect_y, rect_width, rect_height
         var yscale = flip_y ? -1:1
         var xfix = flip_x ? -1:0
         ctx.scale(xscale, yscale)
+
+        var dx = xscale*rect_x+rect_width*xfix+(rect_width-display_width)/2
+        var dy = yscale*rect_y+(rect_height-display_height)/2
+
+        ctx.translate(dx + display_width/2, dy + display_height/2);
+
+        if(rotate != 0){
+            
+            ctx.rotate(rotate)
+            //image_stock[image_src].style.transform = "rotate(" + rotate.toString() + ")"
+        }
+
         ctx.drawImage(image_stock[image_src],
-            xscale*rect_x+rect_width*xfix+(rect_width-display_width)/2, yscale*rect_y+(rect_height-display_height)/2, display_width, display_height
+            -display_width/2, -display_height/2, display_width, display_height
         )
         ctx.restore()
     }
@@ -102,7 +114,9 @@ function drawBlocks() {
         screen.game_ctx.closePath()
 
         var anim_id = getAnimID(game.blocks[i].animationIntervalSec, game.blocks[i].animationImageSrc.length)
-        drawImageOnRect(screen.game_ctx, game.blocks[i].animationImageSrc[anim_id], rect_x, rect_y, rect_width, rect_height, game.blocks[i].animationXFlip)
+        drawImageOnRect(screen.game_ctx, game.blocks[i].animationImageSrc[anim_id],
+            rect_x, rect_y, rect_width, rect_height, game.blocks[i].animationXFlip, false,
+            game.blocks[i].rotate == undefined ? 0:game.blocks[i].rotate)
     }
     
 }
@@ -226,17 +240,17 @@ function draw() {
         drawLabel("board")
         screen.root_ctx.drawImage(screen.board_cv, screen.game_cv.width, 0)
 
-        drawImageOnRect(screen.game_ctx, "resources/background.png", 0, 0, screen.game_cv.width, screen.game_cv.height, false, false, true)
+        drawImageOnRect(screen.game_ctx, "resources/background.png", 0, 0, screen.game_cv.width, screen.game_cv.height, false, false, 0)
         if(game.pause == false){
-            drawBall()
             drawPaddle()
+            drawBall()
             drawBlocks()
         }
         drawLabel("game")
         screen.root_ctx.drawImage(screen.game_cv, 0, 0)
         
     } else {
-        drawImageOnRect(screen.root_ctx, "resources/background.png", 0, 0, screen.root_cv.width, screen.root_cv.height, false, false, true)
+        drawImageOnRect(screen.root_ctx, "resources/background.png", 0, 0, screen.root_cv.width, screen.root_cv.height, false, false, 0)
     }
 
     drawLabel("root")

@@ -22,10 +22,14 @@ function set_screen(){
     screen.english = false
     screen.game_onprocess = false
 
-    screen.audio_catch   = new Audio("resources/catch.mp3");
-    screen.audio_injured = new Audio("resources/injured.mp3");
-    screen.audio_over    = new Audio("resources/over.mp3");
-    screen.audio_game    = new Audio("resources/game.mp3");
+    screen.audio_catch   = new Audio("resources/catch.mp3")
+    screen.audio_injured = new Audio("resources/injured.mp3")
+    screen.audio_over    = new Audio("resources/over.mp3")
+    screen.audio_game    = new Audio("resources/game.mp3")
+    screen.audio_catch.preload = "auto"
+    screen.audio_injured.preload = "auto"
+    screen.audio_over.preload = "auto"
+    screen.audio_game.preload = "auto"
 }
 
 function set_ball(){

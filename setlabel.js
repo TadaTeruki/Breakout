@@ -23,7 +23,7 @@ function setInitialSceneLabel(){
     
 
     label_box = {}
-    
+
     label_box["initial_back"] = {
         canvasType : "root",
         xHS : 0.0,
@@ -36,18 +36,59 @@ function setInitialSceneLabel(){
         textFont : "M PLUS Rounded 1c",
         clickEvent : undefined,
 
-        text : screen.english ? 
-                ["", " ~ Smash fishing ~ ", "Catch as many fish as you can!", "The time limit is 60 seconds.🐟 ", "3 fishing nets will be stocked.", "Be careful not to lose them.🐠 "] :
-                ["", "網漁ゲーム(仮称)", "網で魚を多く捕獲しよう", "制限時間は1分", "網を底に落とさないように気をつけよう", "ウニに当たらないようにも気をつけよう"],
-        textSizeHS : [0.13, 0.07, 0.03, 0.03, 0.03, 0.03],
-        textLineHeightVS : [0.0, 0.07, 0.02, 0.05, 0.02],
-        textWeight : ["", "bold", "", "", "", ""],
-        
+        text : [],
+
         background : true,
         backFillStyle : "#f4f4f4e0",
         textFillStyle : "#333333",
         shadowFillStyle : "#ffffff55",
         shadowBlurHS : 0.1
+    }
+
+    label_box["title"] = {
+        canvasType : "root",
+        xHS : 0.0,
+        yVS : 0.13,
+        widthHS : 1.0,
+        heightVS : 0.28,
+        marginHS : 0.1,
+        textAlign : "center",
+        textBaseLine : "top",
+        textFont : "M PLUS Rounded 1c",
+        clickEvent : undefined,
+
+        text : screen.english ? 
+                ["~ Smash fishing ~", "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"] :
+                ["~ 魚網シューター ~", "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"],
+        textSizeHS : [0.07, 0.025],
+        textLineHeightVS : [0.01],
+        textWeight : ["bold", ""],
+        
+        background : false,
+        textFillStyle : "#333333",
+    }
+    
+    label_box["role"] = {
+        canvasType : "root",
+        xHS : 0.0,
+        yVS : 0.3,
+        widthHS : 1.0,
+        heightVS : 0.775,
+        marginHS : 0.1,
+        textAlign : "center",
+        textBaseLine : "top",
+        textFont : "M PLUS Rounded 1c",
+        clickEvent : undefined,
+
+        text : screen.english ? 
+                ["Catch as many fish as you can!", "The time limit is 60 seconds.🐟 ", "3 fishing nets will be stocked.", "Be careful not to lose them.🐠 "] :
+                ["網で魚を多く捕獲しよう", "制限時間は1分", "網を底に落とさないように気をつけよう", "ウニに当たらないようにも気をつけよう"],
+        textSizeHS : [0.03, 0.03, 0.03, 0.03],
+        textLineHeightVS : [0.02, 0.05, 0.02],
+        textWeight : ["", "", "", ""],
+        
+        background : false,
+        textFillStyle : "#333333",
     }
 
     label_box["button_start"] = {
@@ -281,11 +322,7 @@ function setGameSceneLabel(){
         textBaseLine : "middle",
         textFont : "M PLUS Rounded 1c",
         mouseIn : false,
-        clickEvent : function(){
-            if(game.pause == true) return
-            setPauseLabel()
-            game.pause = true
-        },
+        clickEvent : pauseGame,
 
         text : screen.english ? ["PAUSE"]:["ポーズ"],
         textSizeHS : [0.2],
@@ -556,11 +593,7 @@ function setPauseLabel(){
         textBaseLine : "middle",
         textFont : "M PLUS Rounded 1c",
         mouseIn : false,
-        clickEvent : function(){
-            game.pause = false
-            setGameSceneLabel()
-            game.pauseEndTimeCount = 5
-        },
+        clickEvent : endPause,
 
         text : screen.english ? ["PAUSE", "Click or touch screen to resume"]:["ポーズ中", "画面をクリックまたはタッチすると戻ります"],
         textSizeHS : [0.07, 0.03],
@@ -603,7 +636,7 @@ function setCreditLabel(){
     label_box["credit_main"] = {
         canvasType : "root",
         xHS : 0.15,
-        yVS : 0.25,
+        yVS : 0.2,
         widthHS : 0.4,
         heightVS : 0.6,
         marginHS : 0.0,
@@ -622,7 +655,8 @@ function setCreditLabel(){
                 "ぺるき",
                 "   企画・コーディング",
                 "       ゲームデザイン(支援)",
-                "   楽曲 : 甘茶の音楽工房"
+                "   楽曲 : 甘茶の音楽工房",
+                "   効果音 : OtoLogic,魔王魂"
         ],
         textSizeHS : [0.037,
                       0.032,
@@ -634,6 +668,7 @@ function setCreditLabel(){
                       0.032,
                       0.03,
                       0.025,
+                      0.025,
                       0.025],
         textLineHeightVS : [0.04,
                             0.015,
@@ -644,8 +679,10 @@ function setCreditLabel(){
                             0.04,
                             0.015,
                             0.015,
-                            0.05],
+                            0.05,
+                            0.01],
         textWeight : ["bold",
+                      "",
                       "",
                       "",
                       "",
@@ -666,7 +703,7 @@ function setCreditLabel(){
     label_box["credit_sub"] = {
         canvasType : "root",
         xHS : 0.55,
-        yVS : 0.25,
+        yVS : 0.2,
         widthHS : 0.3,
         heightVS : 0.5,
         marginHS : 0.0,

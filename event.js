@@ -7,9 +7,8 @@ function lostBall(){
     }
 
     set_ball()
-
     screen.audio_injured.play()
-    
+
     game.lastTimeLost = game.time
 }
 
@@ -19,6 +18,8 @@ function startGame(){
     draw()
     setGameSceneLabel()
     startReadyCount()
+    screen.audio_game.currentTime = 0
+    screen.audio_game.play()
 }
 
 function finishGame(){
@@ -30,4 +31,21 @@ function finishGame(){
         setResultLabel()
     }, 1500)
 
+    screen.audio_game.pause()
+    screen.audio_over.play()
+
+}
+
+function pauseGame(){
+    if(game.pause == true) return
+    setPauseLabel()
+    game.pause = true
+    screen.audio_game.pause()
+}
+
+function endPause(){
+    game.pause = false
+    setGameSceneLabel()
+    game.pauseEndTimeCount = 5
+    screen.audio_game.play()
 }

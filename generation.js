@@ -27,8 +27,10 @@ function generate_block(from_right = false){
     var blockScale = 1.0 + Math.random()*1.0
     var speedScale = 1.0 + Math.random()*1.0
 
-    var widthHS = 0.13*blockScale
-    var heightVS = 0.025*blockScale
+    var is_can = Math.random() > (1.25-game.time/(game.time+game.timeRest)*0.25 - 0.2)
+
+    var widthHS = (is_can ? 0.08:0.13)*blockScale
+    var heightVS = (is_can ? 0.04:0.025)*blockScale
 
     make_new_block({
         xHS : from_right ? 1.0 : -widthHS,
@@ -37,16 +39,19 @@ function generate_block(from_right = false){
         heightVS : heightVS,
         available: true,
         score : game.fishScore,
-        ballPiercing : true,
+        is_can : is_can,
+        ballPiercing : !is_can,
         animationImageSrc :
-            Math.random() < 0.8 ? 
+            is_can ? ["resources/can.png"]:
+            (Math.random() < 0.8 ? 
             ["resources/fishA1.png", "resources/fishA2.png", "resources/fishA3.png",
              "resources/fishA4.png", "resources/fishA3.png", "resources/fishA2.png"] :
             ["resources/fishB1.png", "resources/fishB2.png", "resources/fishB3.png",
-             "resources/fishB4.png", "resources/fishB3.png", "resources/fishB2.png"],
+             "resources/fishB4.png", "resources/fishB3.png", "resources/fishB2.png"]),
         animationIntervalSec : 0.1,
         animationXFlip : !from_right,
         speedHS : 0.001 * speedScale,
+        rotate : is_can ? Math.random()*2.0*Math.PI:0.0,
         seed : new Array(2).fill(Math.random()),
         dxFuncHS : function(){
             return (from_right ? -1:1)*this.speedHS*
@@ -56,11 +61,17 @@ function generate_block(from_right = false){
             return 0.0
         },
         brokenFunc : function(){
-            this.available = false
-            setTimeout(function(){
-                generate_block(Math.random() < 0.5)
-            }, 1000)
-            game.score += this.score
+            if(this.is_can){
+
+            } else {
+                screen.audio_catch.currentTime = 0
+                screen.audio_catch.play()
+                this.available = false
+                setTimeout(function(){
+                    generate_block(Math.random() < 0.5)
+                }, 1000)
+                game.score += this.score
+            }
         },
         passFunc : function(){
             this.available = false
