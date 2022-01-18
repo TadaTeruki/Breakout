@@ -84,7 +84,7 @@ function setInitialSceneLabel(){
         clickEvent : undefined,
 
         text : screen.english ? 
-                ["~ Smash fishing ~", "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"] :
+                ["~ Breakout fishing ~", "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"] :
                 ["~ 魚網シューター ~", "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"],
         textSizeHS : [0.07, 0.025],
         textLineHeightVS : [0.01],
