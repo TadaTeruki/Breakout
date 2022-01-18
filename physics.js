@@ -84,6 +84,11 @@ function moveBall(){
         }
     }
 
+    if (game.ballAngle != NextBallAngle) {
+        screen.audio_injured.currentTime = 0
+        screen.audio_injured.play()
+    }
+
     game.ballXHS = NextBallXHS
     game.ballYVS = NextBallYVS
     game.ballAngle = NextBallAngle

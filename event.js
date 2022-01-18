@@ -7,6 +7,7 @@ function lostBall(){
     }
 
     set_ball()
+    screen.audio_injured.currentTime = 0
     screen.audio_injured.play()
 
     game.lastTimeLost = game.time
