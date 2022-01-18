@@ -1,7 +1,12 @@
 
 function keyDownHandler(e) {
     if(e.key == "Up" || e.key == "ArrowUp") {
-        game.ballReleased = true
+        if(game.ballReleased == false){
+            game.ballReleased = true
+            screen.audio_catch.currentTime = 0
+            screen.audio_catch.play()
+        }
+
     }
     if(e.key == "Right" || e.key == "ArrowRight") {
         game.rightPressed = true
@@ -100,6 +105,9 @@ function mouseUpHandler(e) {
         if(game.ballReleased == false){
             game.ballXHS = game.paddleXHS + game.paddleWidthHS * 0.5
             game.ballReleased = true
+
+            screen.audio_catch.currentTime = 0
+            screen.audio_catch.play()
         }
     }
 
