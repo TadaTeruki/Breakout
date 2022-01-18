@@ -15,7 +15,7 @@ function main(){
     screen.game_cv.start_width  = screen.game_cv.width
     screen.game_cv.start_height = screen.game_cv.height
     screen.updateIntervalSec = 0.01
-    screen.drawInterval = 2.5
+    screen.drawInterval = 2
     
     // イベントハンドラの追加
     document.addEventListener("keydown", keyDownHandler, false)
@@ -49,6 +49,7 @@ function startLoop(){
     screen.audio_can      = new Audio("resources/can.mp3")
     screen.audio_uni      = new Audio("resources/uni.mp3")
     screen.audio_count    = new Audio("resources/count.mp3")
+    
     screen.audio_catch.preload = "auto"
     screen.audio_injured.preload = "auto"
     screen.audio_over.preload = "auto"
@@ -59,6 +60,21 @@ function startLoop(){
     screen.audio_can.preload = "auto"
     screen.audio_uni.preload = "auto"
     screen.audio_count.preload = "auto"
+    
+    screen.imageLoadProcess += 10
+
+    screen.audio_catch.addEventListener("loadedmetadata",function(){
+        screen.imageLoadProcess--
+    })
+    screen.audio_injured.addEventListener("loadedmetadata",function(){ screen.imageLoadProcess-- })
+    screen.audio_over.addEventListener("loadedmetadata",function(){ screen.imageLoadProcess-- })
+    screen.audio_game.addEventListener("loadedmetadata",function(){ screen.imageLoadProcess-- })
+    screen.audio_button.addEventListener("loadedmetadata",function(){ screen.imageLoadProcess-- })
+    screen.audio_rank.addEventListener("loadedmetadata",function(){ screen.imageLoadProcess-- })
+    screen.audio_calculate.addEventListener("loadedmetadata",function(){ screen.imageLoadProcess-- })
+    screen.audio_can.addEventListener("loadedmetadata",function(){ screen.imageLoadProcess-- })
+    screen.audio_uni.addEventListener("loadedmetadata",function(){ screen.imageLoadProcess-- })
+    screen.audio_count.addEventListener("loadedmetadata",function(){ screen.imageLoadProcess-- })
 
     loadImage(
         "resources/background.png",
