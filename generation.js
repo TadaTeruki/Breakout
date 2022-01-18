@@ -62,7 +62,8 @@ function generate_block(from_right = false){
         },
         brokenFunc : function(){
             if(this.is_can){
-
+                screen.audio_can.currentTime = 0
+                screen.audio_can.play()
             } else {
                 screen.audio_catch.currentTime = 0
                 screen.audio_catch.play()

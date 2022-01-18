@@ -22,14 +22,24 @@ function set_screen(){
     screen.english = false
     screen.game_onprocess = false
 
-    screen.audio_catch   = new Audio("resources/catch.mp3")
-    screen.audio_injured = new Audio("resources/injured.mp3")
-    screen.audio_over    = new Audio("resources/over.wav")
-    screen.audio_game    = new Audio("resources/game.mp3")
+    screen.audio_catch    = new Audio("resources/catch.mp3")
+    screen.audio_injured  = new Audio("resources/injured.mp3")
+    screen.audio_over     = new Audio("resources/over.wav")
+    screen.audio_game     = new Audio("resources/game.mp3")
+    screen.audio_button   = new Audio("resources/button.mp3")
+    screen.audio_rank     = new Audio("resources/rank.mp3")
+    screen.audio_calculate= new Audio("resources/calculate.mp3")
+    screen.audio_can      = new Audio("resources/can.mp3")
+    screen.audio_uni      = new Audio("resources/uni.mp3")
     screen.audio_catch.preload = "auto"
     screen.audio_injured.preload = "auto"
     screen.audio_over.preload = "auto"
     screen.audio_game.preload = "auto"
+    screen.audio_button.preload = "auto"
+    screen.audio_rank.preload = "auto"
+    screen.audio_calculate.preload = "auto"
+    screen.audio_can.preload = "auto"
+    screen.audio_uni.preload = "auto"
 }
 
 function set_ball(){
@@ -143,7 +153,7 @@ function set_blocks(){
             return 0.0
         },
         brokenFunc : function(){
-            lostBall()
+            lostBall(true)
         },
         passFunc : function(){
             

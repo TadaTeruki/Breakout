@@ -215,7 +215,9 @@ function setGameSceneLabel(){
 
         background : false,
         backFillStyle : "#00000000",
-        textFillStyle : "#333333",
+        textFillStyle : "#ffffff",
+        textShadowFillStyle : "#ffffffaa",
+        textShadowBlurHS : 0.01,
         shadowBlurHS : 0
     }
 
@@ -525,6 +527,11 @@ function setResultLabel(){
 
     var resultStartLoop = game.resultLoop
     countEffect = function(){
+        if(resultStartLoop == game.resultLoop){
+            screen.audio_calculate.currentTime = 0
+            screen.audio_calculate.play()
+        }
+
         if(label_box["result_score_info"] == undefined) return
         game.resultLoop--
         if(game.resultLoop > 0){
@@ -532,7 +539,8 @@ function setResultLabel(){
         } else {
             game.resultLoop = 0
         }
-        if(game.resultLoop < resultStartLoop/2){
+        if(game.resultLoop < resultStartLoop/2 && label_box["result_score_rank"].text[0] != ""){
+            screen.audio_rank.play()
             label_box["result_score_rank"].xHS = 0.75
             label_box["result_score_rank"].textShadowBlurHS = 0.1
             label_box["result_score_rank"].textSizeHS[0] = 0.13 + Math.pow(game.resultLoop/resultStartLoop,4)*2.0

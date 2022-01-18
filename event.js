@@ -1,5 +1,5 @@
 // ボールが取りこぼされた時の処理を行う
-function lostBall(){
+function lostBall(by_uni = false){
     if(game.ballReleased == true) game.netRest--
 
     if(game.netRest <= 0){
@@ -7,8 +7,13 @@ function lostBall(){
     }
 
     set_ball()
-    screen.audio_injured.currentTime = 0
-    screen.audio_injured.play()
+    if(by_uni){
+        screen.audio_uni.currentTime = 0
+        screen.audio_uni.play()
+    } else {
+        screen.audio_injured.currentTime = 0
+        screen.audio_injured.play()
+    }
 
     game.lastTimeLost = game.time
 }

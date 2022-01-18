@@ -84,7 +84,7 @@ function moveBall(){
         }
     }
 
-    if (game.ballAngle != NextBallAngle) {
+    if (game.ballAngle != NextBallAngle && brokenBlocksList.length == 0) {
         screen.audio_injured.currentTime = 0
         screen.audio_injured.play()
     }
@@ -97,5 +97,7 @@ function moveBall(){
         var place = brokenBlocksList[i]
         game.blocks[place].brokenFunc()
     }
+
+
 
 }

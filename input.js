@@ -90,6 +90,8 @@ function mouseUpHandler(e) {
 
         if(label.mouseIn){
             label.clickEvent()
+            screen.audio_button.currentTime = 0
+            screen.audio_button.play()
         }
     }
 
