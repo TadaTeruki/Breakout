@@ -1,20 +1,34 @@
-## ブロック崩し (はこだて未来大 22期生 JavaScript班)
+# 魚網シューター
 
-JavaScriptによるブロック崩し。<br>
+ブロック崩しの要領で、魚を捕獲するゲーム。<br>
+第1回「いわしジャム」に投稿予定。<br>
 
+[**ブラウザでプレイする**](https://tadateruki.github.io/Breakout/)
 
-#### 進捗
+## クレジット
 
-2022/1/5 : yukidama氏によるベースの実装<br>
-2022/1/8 : ぺるき氏による機能追加 (ブロックの追加 / ブロックの当たり判定の追加 など )<br>
-2022/1/8 : itch.ioでのプレ公開 ( https://tadateruki.itch.io/js-breakout )<br>
+### 開発メンバー
+ - ゆきだま
+    - ゲームシステム・BGM/SE選曲・コーディング
+ - やま
+    - グラフィックス・ゲームシステム
+ - ぺるき
+    - 企画・コーディング・ゲームシステム
 
-#### 制作班メンバー
- - yukidama <br>
- - ぺるき <br>
+### 企画支援者
+ - 雪見だいふく
+ - ファラット
+ - shigure
 
-#### プレビュー
+### 素材元
 
-2022/1/8時点
+楽曲 : 甘茶の音楽工房 <br>
+効果音 : OtoLogic,魔王魂 <br>
 
-![Screenshot from 2022-01-08 14-37-49](https://user-images.githubusercontent.com/69315285/148632992-f72758b8-741f-45a5-ace4-cc22a6f8ece9.png)
+## プレビュー
+
+2022/1/18時点
+
+<img src = "https://user-images.githubusercontent.com/69315285/149930121-96f127f8-8bda-4371-b018-b65aa700db40.png" height="300"> <img src = "https://user-images.githubusercontent.com/69315285/149930128-5559815d-26c0-448c-bdcb-7272c9b0f700.png" height="300">
+
+<img src = https://user-images.githubusercontent.com/69315285/149930982-3bedaa39-98bd-4664-b96e-de5ed48f4de0.png height="300"> <img src = "https://user-images.githubusercontent.com/69315285/149930894-2be0bf70-9a56-472e-b732-c4535351ffab.png" height="300">
